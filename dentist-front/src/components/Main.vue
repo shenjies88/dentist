@@ -20,6 +20,13 @@
         margin: 15px auto;
     }
 
+    .layout-content {
+        overflow: auto;
+        &-breadcrumb {
+            padding: 10px;
+        }
+    }
+
     .menu-icon {
         transition: all .3s;
     }
@@ -63,7 +70,7 @@
         padding: 10px 40px 10px 20px;
         align-content: center;
         justify-content: space-between;
-        background-color: #353b47;
+        background-color: #6495ED;
 
         img {
             width: 42px;
@@ -80,31 +87,27 @@
 <template>
     <div class="layout">
         <Layout>
-            <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed" :style="{height: '100vh'}">
+            <Sider ref="side1":style="{height: '100vh'}">
                 <div v-if="!isCollapsed" class="logo-con">
                     <span>轻松牙医</span>
                 </div>
-                <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses">
-                    <MenuItem name="1-1">
-                        <Icon type="ios-navigate"></Icon>
-                        <span>Option 1</span>
-                    </MenuItem>
-                    <MenuItem name="1-2">
-                        <Icon type="ios-search"></Icon>
-                        <span>Option 2</span>
-                    </MenuItem>
-                    <MenuItem name="1-3">
-                        <Icon type="ios-settings"></Icon>
-                        <span>Option 3</span>
+                <Menu :active-name="$route.matched[0].name" theme="dark" width="auto" :class="menuitemClasses">
+                    <MenuItem v-for="(item, index) in $route.matched" :name="item.name" :key="index">
+                        {{item.meta.title}}
                     </MenuItem>
                 </Menu>
             </Sider>
             <Layout>
-                <Header :style="{padding: 0}" class="layout-header-bar">
-                    <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu"
-                          size="24"></Icon>
-                </Header>
+                <Header :style="{padding: 0}" class="layout-header-bar"/>
                 <Content :style="{margin: '20px', minHeight: '260px'}">
+                    <Breadcrumb class="layout-content-breadcrumb">
+                        <BreadcrumbItem
+                                :to="item.path"
+                                v-for="(item, index) in $route.matched"
+                                :key="index"
+                        >{{item.meta.title}}
+                        </BreadcrumbItem>
+                    </Breadcrumb>
                     <router-view/>
                 </Content>
             </Layout>
