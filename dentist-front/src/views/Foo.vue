@@ -1,10 +1,10 @@
 <template>
-    <div>A</div>
+    <Card>Foo</Card>
 </template>
 
 <script>
     export default {
-        name: "A"
+        name: "B"
     }
 </script>
 

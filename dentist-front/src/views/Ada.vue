@@ -1,10 +1,12 @@
 <template>
-<div>B</div>
+    <Card>
+        Ada
+    </Card>
 </template>
 
 <script>
     export default {
-        name: "B"
+        name: "A"
     }
 </script>
 

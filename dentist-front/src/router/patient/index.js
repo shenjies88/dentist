@@ -1,16 +1,17 @@
 import Main from '@c/Main'
 
 const router = {
-    path: '/patient',
+    path: '/',
     name: 'patient',
+    redirect: '/patient/foo',
     component: Main,
-    children:[
+    children: [
         {
-            path: 'b',
-            name: 'b',
-            component: () => import('@v/B')
+            path: '/patient/foo',
+            name: 'patient-foo',
+            component: () => import('@v/Foo')
         }
     ]
-}
+};
 
 export default router

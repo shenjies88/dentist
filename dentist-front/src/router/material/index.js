@@ -5,13 +5,13 @@ const router = {
     path: '/material',
     name: 'material',
     component: Main,
-    children:[
+    children: [
         {
-            path: 'a',
-            name: 'a',
-            component: () => import('@v/A')
+            path: 'ada',
+            name: 'material-ada',
+            component: () => import('@v/Ada')
         }
     ]
-}
+};
 
 export default router
