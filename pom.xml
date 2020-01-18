@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.qingsongyayi.backend</groupId>
-    <artifactId>qingsongyayi-backend</artifactId>
+    <groupId>com.dentist.backend</groupId>
+    <artifactId>dentist-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>qingsongyayi-backend</name>
+    <name>dentist-backend</name>
     <description>轻松牙医后端</description>
 
     <properties>
