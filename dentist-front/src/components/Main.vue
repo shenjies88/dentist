@@ -22,46 +22,10 @@
 
     .layout-content {
         overflow: auto;
+
         &-breadcrumb {
             padding: 10px;
         }
-    }
-
-    .menu-icon {
-        transition: all .3s;
-    }
-
-    .rotate-icon {
-        transform: rotate(-90deg);
-    }
-
-    .menu-item span {
-        display: inline-block;
-        overflow: hidden;
-        width: 69px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        vertical-align: bottom;
-        transition: width .2s ease .2s;
-    }
-
-    .menu-item i {
-        transform: translateX(0px);
-        transition: font-size .2s ease, transform .2s ease;
-        vertical-align: middle;
-        font-size: 16px;
-    }
-
-    .collapsed-menu span {
-        width: 0px;
-        transition: width .2s ease;
-    }
-
-    .collapsed-menu i {
-        transform: translateX(5px);
-        transition: font-size .2s ease .2s, transform .2s ease .2s;
-        vertical-align: middle;
-        font-size: 22px;
     }
 
     .logo-con {
@@ -87,18 +51,24 @@
 <template>
     <div class="layout">
         <Layout>
-            <Sider ref="side1":style="{height: '100vh'}">
-                <div v-if="!isCollapsed" class="logo-con">
+            <Sider :style="{height: '100vh'}">
+                <div class="logo-con">
                     <span>轻松牙医</span>
                 </div>
-                <Menu :active-name="$route.matched[0].name" theme="dark" width="auto" :class="menuitemClasses">
-                    <MenuItem v-for="(item, index) in $route.matched" :name="item.name" :key="index">
+                <Menu :active-name="this.sideMenuListData[0].name" theme="dark" width="auto">
+                    <MenuItem v-for="(item, index) in this.sideMenuListData" :name="item.name" :key="index" :to="item.path">
                         {{item.meta.title}}
                     </MenuItem>
                 </Menu>
             </Sider>
             <Layout>
-                <Header :style="{padding: 0}" class="layout-header-bar"/>
+                <Header :style="{padding: 0}" class="layout-header-bar">
+                    <Menu :active-name="topMenuListData[0].name" mode="horizontal" theme="dark"  @on-select="headerTopMenuSelect">
+                        <MenuItem v-for="(item,index) in topMenuListData" :name="item.name" :key="index" :to="item.path">
+                            {{item.meta.title}}
+                        </MenuItem>
+                    </Menu>
+                </Header>
                 <Content :style="{margin: '20px', minHeight: '260px'}">
                     <Breadcrumb class="layout-content-breadcrumb">
                         <BreadcrumbItem
@@ -118,27 +88,14 @@
     export default {
         data() {
             return {
-                isCollapsed: false
-            }
-        },
-        computed: {
-            rotateIcon() {
-                return [
-                    'menu-icon',
-                    this.isCollapsed ? 'rotate-icon' : ''
-                ];
-            },
-            menuitemClasses() {
-                return [
-                    'menu-item',
-                    this.isCollapsed ? 'collapsed-menu' : ''
-                ]
+                sideMenuListData: this.$router.options.routes[0].children,
+                topMenuListData: this.$router.options.routes
             }
         },
         methods: {
-            collapsedSider() {
-                this.$refs.side1.toggleCollapse();
+            headerTopMenuSelect: function (name) {
+                this.sideMenuListData = this.topMenuListData.find(e => e.name === name).children
             }
-        }
+        },
     }
 </script>

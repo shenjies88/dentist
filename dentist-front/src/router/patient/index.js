@@ -1,12 +1,12 @@
 import Main from '@c/Main'
 
 const router = {
-    path: '/',
+    path: '/patient',
     name: 'patient',
     redirect: '/patient/foo',
     component: Main,
     meta: {
-        title: 'Foo的首页'
+        title: '病人'
     },
     children: [
         {

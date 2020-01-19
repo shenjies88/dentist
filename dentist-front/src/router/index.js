@@ -18,6 +18,9 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   ViewUI.LoadingBar.start();
+  if (to.path === '/') {
+    router.push('/patient/foo')
+  }
   next()
 });
 

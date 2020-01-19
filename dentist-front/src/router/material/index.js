@@ -7,7 +7,7 @@ const router = {
     redirect: '/material/ada',
     component: Main,
     meta: {
-        title: 'Ada的首页'
+        title: '物资'
     },
     children: [
         {
