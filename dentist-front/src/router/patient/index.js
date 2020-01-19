@@ -10,7 +10,7 @@ const router = {
     },
     children: [
         {
-            path: '/patient/foo',
+            path: 'foo',
             name: 'patient-foo',
             meta: {
                 title: 'Foo'

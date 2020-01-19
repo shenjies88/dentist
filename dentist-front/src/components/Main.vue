@@ -63,7 +63,7 @@
             </Sider>
             <Layout>
                 <Header :style="{padding: 0}" class="layout-header-bar">
-                    <Menu :active-name="topMenuListData[0].name" mode="horizontal" theme="dark"  @on-select="headerTopMenuSelect">
+                    <Menu :active-name="topMenuListData[0].name" mode="horizontal" theme="light"  @on-select="headerTopMenuSelect">
                         <MenuItem v-for="(item,index) in topMenuListData" :name="item.name" :key="index" :to="item.path">
                             {{item.meta.title}}
                         </MenuItem>
