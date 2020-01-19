@@ -1,9 +1,12 @@
 package com.qingsongyayi.backend.vo;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author shenjies88
@@ -25,4 +28,13 @@ public class PageResultVo<T> {
     public static <T> PageResultVo format(List<T> list, Long count, Integer pageNum, Integer pageSize) {
         return new PageResultVo(count, pageNum, pageSize, list);
     }
+
+    public static <T extends PageVo, R> PageResultVo paging(T requestParam, Function<T, List<R>> function) {
+        Integer pageNum = requestParam.getPageNum();
+        Integer pageSize = requestParam.getPageSize();
+        Page<R> page = PageHelper.startPage(pageNum, pageSize);
+        function.apply(requestParam);
+        return PageResultVo.format(page.getResult(), page.getTotal(), pageNum, pageSize);
+    }
+
 }

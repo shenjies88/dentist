@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingsongyayi.backend.mapper.PatientInfoMapper">
+
+    <resultMap id="DOMapper" type="com.qingsongyayi.backend.entity.PatientInfoDO">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="phone" column="phone"/>
+        <result property="fixedPhone" column="fixed_phone"/>
+        <result property="contactAddress" column="contact_address"/>
+        <result property="note" column="note"/>
+        <result property="createAt" column="create_at"/>
+    </resultMap>
+
+    <!-- add方法注意清除一下不需要的字段和最后的逗号  -->
+
+    <sql id="PatientInfoDO">
+        id, name, sex, age, phone, fixed_phone, contact_address, note
+    </sql>
+
+    <insert id="insert">
+        insert into patient_info (
+        <include refid="PatientInfoDO"/>
+        ) values
+        (
+        null,
+        #{data.name},
+        #{data.sex},
+        #{data.age},
+        #{data.phone},
+        #{data.fixedPhone},
+        #{data.contactAddress},
+        #{data.note}
+        )
+    </insert>
+
+    <update id="delete">
+        update patient_info
+        set is_deleted = 1
+        where id in
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="update">
+        update patient_info
+        <set>
+            <if test="data.name != null and data.name != ''">
+                name = #{data.name},
+            </if>
+            <if test="data.sex != null and data.sex != ''">
+                sex = #{data.sex},
+            </if>
+            <if test="data.age != null">
+                age = #{data.age},
+            </if>
+            <if test="data.phone != null and data.phone != ''">
+                phone = #{data.phone},
+            </if>
+            <if test="data.fixedPhone != null and data.fixedPhone != ''">
+                fixed_phone = #{data.fixedPhone},
+            </if>
+            <if test="data.contactAddress != null and data.contactAddress != ''">
+                contact_address = #{data.contactAddress},
+            </if>
+            <if test="data.note != null and data.note != ''">
+                note = #{data.note},
+            </if>
+        </set>
+        where id = #{id} and is_deleted = 0
+    </update>
+
+    <select id="queryEntityById" resultType="com.qingsongyayi.backend.entity.PatientInfoDO">
+        select<include refid="PatientInfoDO"/>,
+        create_at
+        from patient_info
+        where id = #{id} and is_deleted = 0
+    </select>
+
+    <select id="queryListPage" resultType="com.qingsongyayi.backend.entity.PatientInfoDO">
+        select<include refid="PatientInfoDO"/>,
+        create_at
+        from patient_info
+        where is_deleted = 0
+        order by create_at desc
+    </select>
+
+</mapper>
