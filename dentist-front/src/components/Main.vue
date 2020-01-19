@@ -53,7 +53,7 @@
         <Layout>
             <Sider :style="{height: '100vh'}">
                 <div class="logo-con">
-                    <span>轻松牙医</span>
+                    <span>1234</span>
                 </div>
                 <Menu :active-name="this.sideMenuListData[0].name" theme="dark" width="auto">
                     <MenuItem v-for="(item, index) in this.sideMenuListData" :name="item.name" :key="index" :to="item.path">

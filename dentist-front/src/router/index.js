@@ -18,8 +18,12 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   ViewUI.LoadingBar.start();
+
   if (to.path === '/') {
-    router.push('/patient/foo')
+    router.push('/patient/base')
+  }
+  if (to.meta.title) {
+    document.title = to.meta.title
   }
   next()
 });

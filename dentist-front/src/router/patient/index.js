@@ -3,19 +3,19 @@ import Main from '@c/Main'
 const router = {
     path: '/patient',
     name: 'patient',
-    redirect: '/patient/foo',
+    redirect: '/patient/base',
     component: Main,
     meta: {
         title: '病人'
     },
     children: [
         {
-            path: 'foo',
-            name: 'patient-foo',
+            path: 'base',
+            name: 'patient-base',
             meta: {
-                title: 'Foo'
+                title: '病人基本信息'
             },
-            component: () => import('@v/Foo')
+            component: () => import('@v/PatientBase')
         }
     ]
 };

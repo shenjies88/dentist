@@ -3,17 +3,14 @@ import Vuex from 'vuex'
 import patient from './patient'
 import material from './material'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-    patient,
-    material
-  }
-})
+const store = new Vuex.Store({
+    modules: {
+        ...patient,
+        ...material
+    }
+});
+
+export default store;
+
