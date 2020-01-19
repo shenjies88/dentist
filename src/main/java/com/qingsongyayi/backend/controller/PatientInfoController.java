@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Api(tags = "病人基本信息")
 @AllArgsConstructor
-@RequestMapping("/patient/base")
+@RequestMapping("/api/patient/base")
 @RestController
 public class PatientInfoController {
 

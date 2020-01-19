@@ -1,0 +1,20 @@
+version: '3'
+services:
+
+  dentist-backend:
+    image: dentist-backend:v1
+    container_name: dentist-backend
+    build:
+      context: .
+      dockerfile: dockerfile-backend
+    ports:
+      - "8080:8080"
+
+  dentist-front:
+    image: dentist-front:v1
+    container_name: dentist-front
+    build:
+      context: .
+      dockerfile: dockerfile-front
+    ports:
+      - "8000:80"

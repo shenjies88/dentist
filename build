@@ -1,0 +1,25 @@
+#!/bin/bash
+cd `dirname $0`
+chmod +x ./mvnw
+
+echo '**********'
+echo '后端打包中'
+echo '**********'
+
+mvn clean package -DskipTests
+
+echo '**********'
+echo '后端打包成功'
+echo '**********'
+
+cd dentist-front
+
+echo '**********'
+echo '前端打包中'
+echo '**********'
+
+yarn build
+
+echo '**********'
+echo '前端打包成功'
+echo '**********'
