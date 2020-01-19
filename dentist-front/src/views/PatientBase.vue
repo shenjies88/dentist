@@ -4,13 +4,11 @@
             搜索栏
         </Row>
         <Row>
-            <Table border :columns="columns" :data="patientBaseList">
-                <template slot-scope="{ row, index }" slot="action">
-                    <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">View</Button>
-                    <Button type="error" size="small" @click="remove(index)">Delete</Button>
-                </template>
-            </Table>
+            <CommonTable :columns="columns" :dataList="patientBaseList" :detail="detail"/>
         </Row>
+        <Modal v-model="modalOpen" title="病人基本信息">
+
+        </Modal>
     </Card>
 </template>
 
@@ -18,11 +16,25 @@
 
     import {mapActions, mapState} from "vuex";
     import pageReq from "@/libs/pageReq";
+    import CommonTable from "../components/CommonTable";
 
     export default {
         name: "patientBase",
+        components: {CommonTable},
         data: function () {
             return {
+                modalOpen: false,
+                entity: {
+                    id: null,
+                    name: null,
+                    sex: null,
+                    age: null,
+                    phone: null,
+                    fixedPhone: null,
+                    contactAddress: null,
+                    note: null,
+                    createAt: null
+                },
                 columns: [
                     {
                         type: 'index',
@@ -60,7 +72,7 @@
                     {
                         title: '操作',
                         slot: 'action',
-                        width: 150,
+                        width: 200,
                         align: 'center'
                     }
                 ]
@@ -72,7 +84,10 @@
         methods: {
             ...mapActions({
                 getPatientBaseList: 'getPatientBaseList'
-            })
+            }),
+            detail(row,index) {
+                this.modalOpen = true;
+            }
         },
         computed: {
             ...mapState({
