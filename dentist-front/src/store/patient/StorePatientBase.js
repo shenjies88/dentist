@@ -16,6 +16,9 @@ const store = {
             api.getPatientBaseList(param).then(res => {
                 commit('setPatientBaseList', res.data);
             })
+        },
+        deletePatientBase(_, param) {
+            console.log('删除')
         }
     }
 

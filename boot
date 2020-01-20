@@ -9,6 +9,7 @@ printFunction() {
     echo '3.启动服务'
     echo '4.停止服务'
     echo '5.停止并移除服务'
+    echo '6.重启服务'
     echo '0退出脚本'
     echo '<<<<<**********>>>>>'
     read -p "请输入选项:" CONDITION
@@ -57,6 +58,9 @@ switchFunction() {
         ;;
         5)
             docker-compose down
+        ;;
+        6)
+            docker-compose restart
         ;;
         *)
             echo '错误输入，请重新输入'
