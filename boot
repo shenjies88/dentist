@@ -14,11 +14,7 @@ printFunction() {
     read -p "请输入选项:" CONDITION
 }
 
-switchFunction() {
-    case $CONDITION in
-        0)  echo '退出脚本'
-        ;;
-        1)
+build() {
             echo '<<<<<**********>>>>>'
             echo '后端打包中'
             echo '<<<<<**********>>>>>'
@@ -40,6 +36,15 @@ switchFunction() {
             echo '<<<<<**********>>>>>'
             echo '前端打包成功'
             echo '<<<<<**********>>>>>'
+}
+
+switchFunction() {
+    case $CONDITION in
+        0)  
+            echo '退出脚本'
+        ;;
+        1)
+            build
         ;;
         2)
             docker-compose build && docker image prune -f &&  docker-compose up -d
