@@ -14,9 +14,9 @@ const router = {
             path: 'ada',
             name: 'material-ada',
             meta: {
-                title: 'Ada'
+                title: 'Material'
             },
-            component: () => import('@v/Ada')
+            component: () => import('@v/Material')
         }
     ]
 };

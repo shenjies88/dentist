@@ -16,10 +16,5 @@ create table if not exists patient_info
     create_at       datetime     default CURRENT_TIMESTAMP not null comment '创建时间'
 )
     comment '病人基本信息';
-INSERT INTO dentist.patient_info (id, name, sex, age, phone, fixed_phone, contact_address, note, is_deleted, create_at)
-VALUES (1, '男1', '男', 11, '18178324804', '18178324804', '联系地址', '备注', 0, '2020-01-19 11:42:26');
-INSERT INTO dentist.patient_info (id, name, sex, age, phone, fixed_phone, contact_address, note, is_deleted, create_at)
-VALUES (2, '男2', '男', 11, '18178324804', '18178324804', '联系地址', '备注', 1, '2020-01-19 11:42:38');
-INSERT INTO dentist.patient_info (id, name, sex, age, phone, fixed_phone, contact_address, note, is_deleted, create_at)
-VALUES (3, '女1', '女', 11, '18178324804', '18178324804', '联系地址', '备注', 0, '2020-01-19 11:42:50');
+
 

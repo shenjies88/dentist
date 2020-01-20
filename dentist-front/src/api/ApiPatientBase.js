@@ -19,7 +19,25 @@ const deletePatientBase = (data) => {
     })
 };
 
+const addPatientBase = (data) => {
+    return axios.request({
+        url: config.preUrl + baseUrl,
+        data,
+        method: "post"
+    })
+};
+
+const updatePatientBase = (data, id) => {
+    return axios.request({
+        url: config.preUrl + baseUrl + '/' + id,
+        data,
+        method: "put"
+    })
+};
+
 export default {
     getPatientBaseList,
-    deletePatientBase
+    deletePatientBase,
+    addPatientBase,
+    updatePatientBase
 }

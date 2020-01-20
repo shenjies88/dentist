@@ -1,27 +1,44 @@
 <template>
     <Card>
-        <CommonTable :columns="columns" :dataList="patientBaseList" :openModal="openModal"/>
-        <Modal v-model="modalOpen" :title="modalTitle" @on-ok="handleSubmit('patientBaseForm')"
-               @on-cancel="handleCancel">
+        <CommonTable :pageNumChange="pageNumChange" :pageSizeChange="pageSizeChange" :count="this.count"
+                     :loading="loading" :columns="columns" :dataList="patientBaseList" :openModal="openModal"/>
+        <Modal v-model="modalOpen" :title="modalTitle">
             <Form ref="patientBaseForm" :model="entity" :rules="patientBaseRules" :label-width="80">
-                <FormItem label="姓名">
-                    <Input type="text" v-model="entity.name"/>
+                <FormItem label="姓名" prop="name">
+                    <Input type="text" v-model="entity.name" :readonly="this.operationType === 'detail'"/>
                 </FormItem>
-                <FormItem label="性别" v-if="this.operationType === 'detail'">
-                    <Input type="text" v-model="entity.sex"/>
-                </FormItem>
-                <FormItem v-else label="性别">
-                    <Select v-model="entity.sex">
+                <FormItem label="性别" prop="sex">
+                    <Input v-if="this.operationType === 'detail'" type="text" v-model="entity.sex"/>
+                    <Select v-else v-model="entity.sex">
                         <Option value="男">男</Option>
                         <Option value="女">女</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="年龄">
-                    <Input type="number" v-model="entity.age"/>
+                <FormItem label="年龄" prop="age">
+                    <Input type="number" number v-model="entity.age" :readonly="this.operationType === 'detail'"/>
                 </FormItem>
-                <FormItem>
+                <FormItem label="电话" prop="phone">
+                    <Input type="text" v-model="entity.phone" :readonly="this.operationType === 'detail'"/>
+                </FormItem>
+                <FormItem label="固定电话" prop="fixedPhone">
+                    <Input type="text" v-model="entity.fixedPhone" :readonly="this.operationType === 'detail'"/>
+                </FormItem>
+                <FormItem label="联系地址" prop="contactAddress">
+                    <Input type="text" v-model="entity.contactAddress" :readonly="this.operationType === 'detail'"/>
+                </FormItem>
+                <FormItem label="备注" prop="note">
+                    <Input type="text" v-model="entity.note" :readonly="this.operationType === 'detail'"/>
+                </FormItem>
+                <FormItem label="创建时间" v-if="this.operationType !== 'add' && this.operationType !== 'update'">
+                    <Input type="text" v-model="entity.createAt" :readonly="this.operationType === 'detail'"/>
+                </FormItem>
+                <FormItem v-if="this.operationType === 'add' || this.operationType === 'update' ">
+                    <Button type="info" @click="handleSubmit('patientBaseForm')">提交</Button>
                 </FormItem>
             </Form>
+            <div slot="footer">
+                <Button type="primary" @click="close('patientBaseForm')">关闭</Button>
+            </div>
         </Modal>
     </Card>
 </template>
@@ -35,22 +52,40 @@
     export default {
         name: "patientBase",
         components: {CommonTable},
+        mixins: [pageReq],
         data: function () {
             return {
-                operationType: '',
+                loading: false,
+                operationType: null,
                 modalOpen: false,
-                modalTitle: '',
+                modalTitle: null,
                 entity: {
                     name: null,
                     sex: null,
-                    age: 0,
+                    age: null,
                     phone: null,
                     fixedPhone: null,
                     contactAddress: null,
                     note: null,
                     createAt: null
                 },
-                patientBaseRules: {},
+                patientBaseRules: {
+                    name: [
+                        {required: true, trigger: 'blur', message: '姓名不能为空'}
+                    ],
+                    sex: [
+                        {required: true, trigger: 'blur', message: '性别不能为空'}
+                    ],
+                    age: [
+                        {required: true, trigger: 'blur', message: '年龄不能为空', type: 'number'}
+                    ],
+                    phone: [
+                        {required: true, trigger: 'blur', message: '手机号不能为空'}
+                    ],
+                    contactAddress: [
+                        {required: true, trigger: 'blur', message: '联系地址不能为空'}
+                    ]
+                },
                 columns: [
                     {
                         type: 'index',
@@ -100,7 +135,9 @@
         methods: {
             ...mapActions({
                 getPatientBaseList: 'getPatientBaseList',
-                deletePatientBase: 'deletePatientBase'
+                deletePatientBase: 'deletePatientBase',
+                addPatientBase: 'addPatientBase',
+                updatePatientBase: 'updatePatientBase'
             }),
             setModal: function (name, type) {
                 this.modalTitle = name,
@@ -111,51 +148,85 @@
                 switch (type) {
                     case 'add': {
                         this.setModal('新增病人信息', 'add')
-                        this.entity = {}
                     }
                         break;
                     case 'detail': {
                         this.setModal('病人基本信息', 'detail')
-                        this.entity = Object.assign({}, row)
+                        this.entity = Object.assign({}, row);
                     }
                         break;
                     case 'update': {
                         this.setModal('修改病人信息', 'update');
+                        this.entity = Object.assign({}, row);
                     }
                         break;
                     case 'remove': {
                         this.$Modal.confirm({
                             title: '是否确定删除',
                             onOk: () => {
+                                this.loading = true
                                 this.deletePatientBase(row.id).then(_ => {
-                                    this.$Message.info('删除成功');
+                                    this.$Message.success("删除成功")
+                                    this.loading = false
                                     this.getPatientBaseList(pageReq)
                                 }).catch(e => {
                                     console.log(e)
-                                    this.$Message.error('删除失败，请检查网络')
+                                    this.$Message.error("删除失败")
                                 })
                             }
                         })
                     }
                 }
             },
-            handleSubmit(name) {
-                this.$refs[name].validate((valid) => {
+            handleSubmit() {
+                this.$refs['patientBaseForm'].validate((valid) => {
                     if (valid) {
                         switch (this.operationType) {
                             case "add":
+                                this.loading = true
+                                this.addPatientBase(this.entity)
+                                    .then(_ => {
+                                        this.$Message.success("添加成功")
+                                        this.loading = false
+                                        this.getPatientBaseList(pageReq)
+                                        this.close()
+                                    })
+                                    .catch(e => {
+                                        console.log(e)
+                                        this.close()
+                                        this.$Message.error("添加失败")
+                                    })
                                 break;
                             case "update":
-                                break
+                                this.loading = true
+                                this.updatePatientBase(this.entity)
+                                    .then(_ => {
+                                        this.$Message.success("修改成功")
+                                        this.loading = false
+                                        this.getPatientBaseList(pageReq)
+                                        this.close()
+                                    })
+                                    .catch(e => {
+                                        console.log(e)
+                                        this.$Message.error("修改失败")
+                                        this.close()
+                                    })
+                                break;
                         }
-                        this.$Message.success('Success!');
-                    } else {
-                        this.$Message.error('Fail!');
                     }
                 })
             },
-            handleCancel() {
-                this.modalOpen = false;
+            close() {
+                this.modalOpen = false
+                this.$refs['patientBaseForm'].resetFields()
+            },
+            pageNumChange(num) {
+                pageReq.pageNum = num;
+                this.getPatientBaseList(pageReq)
+            },
+            pageSizeChange(size) {
+                pageReq.pageSize = size;
+                this.getPatientBaseList(pageReq)
             }
         },
         computed: {

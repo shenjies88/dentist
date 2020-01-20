@@ -1,12 +1,12 @@
 <template>
     <Card>
-        Ada
+        Material
     </Card>
 </template>
 
 <script>
     export default {
-        name: "A"
+        name: "Material"
     }
 </script>
 
