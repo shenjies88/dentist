@@ -10,33 +10,33 @@ printFunction() {
     echo '4.停止服务'
     echo '5.停止并移除服务'
     echo '6.重启服务'
-    echo '0退出脚本'
+    echo '0.退出脚本'
     echo '<<<<<**********>>>>>'
     read -p "请输入选项:" CONDITION
 }
 
 build() {
-            echo '<<<<<**********>>>>>'
-            echo '后端打包中'
-            echo '<<<<<**********>>>>>'
+    echo '<<<<<**********>>>>>'
+    echo '后端打包中'
+    echo '<<<<<**********>>>>>'
 
-            mvn clean package -DskipTests
+    mvn clean package -DskipTests
 
-            echo '<<<<<**********>>>>>'
-            echo '后端打包成功'
-            echo '<<<<<**********>>>>>'
+    echo '<<<<<**********>>>>>'
+    echo '后端打包成功'
+    echo '<<<<<**********>>>>>'
 
-            cd dentist-front
+    cd dentist-front
 
-            echo '<<<<<**********>>>>>'
-            echo '前端打包中'
-            echo '<<<<<**********>>>>>'
+    echo '<<<<<**********>>>>>'
+    echo '前端打包中'
+    echo '<<<<<**********>>>>>'
 
-            yarn build
+    yarn build
 
-            echo '<<<<<**********>>>>>'
-            echo '前端打包成功'
-            echo '<<<<<**********>>>>>'
+    echo '<<<<<**********>>>>>'
+    echo '前端打包成功'
+    echo '<<<<<**********>>>>>'
 }
 
 switchFunction() {
