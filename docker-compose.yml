@@ -1,6 +1,23 @@
 version: '3'
 services:
 
+  dentist-mysql:
+    image: dentist-mysql:v1
+    container_name: dentist-mysql
+    build:
+      context: .
+      dockerfile: dockerfile-mysql
+    ports:
+      - '3307:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    command: [
+      "--log-bin=mysql-bin",
+      "--server-id=1"
+    ]
+    networks:
+      - dentist-net
+
   dentist-backend:
     image: dentist-backend:v1
     container_name: dentist-backend
@@ -9,6 +26,10 @@ services:
       dockerfile: dockerfile-backend
     ports:
       - "8080:8080"
+    depends_on:
+      - dentist-mysql
+    networks:
+      - dentist-net
 
   dentist-front:
     image: dentist-front:v1
@@ -18,3 +39,10 @@ services:
       dockerfile: dockerfile-front
     ports:
       - "8000:80"
+    depends_on:
+      - dentist-backend
+    networks:
+      - dentist-net
+
+networks:
+  dentist-net:
