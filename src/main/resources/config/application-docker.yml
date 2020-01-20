@@ -1,24 +1,4 @@
 spring:
-  application:
-    name: dentist-backend
   datasource:
     url: jdbc:mysql://dentist-mysql:3306/dentist?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2b8
-    username: root
-    password: password
-    driver-class-name: com.mysql.cj.jdbc.Driver
 
-logging:
-  level:
-    root: info
-    org.springframework.jdbc.core.JdbcTemplate: debug
-    com.qingsongyayi.backend: debug
-
-pagehelper:
-  helperDialect: mysql
-  reasonable: true
-  supportMethodsArguments: true
-
-mybatis:
-  mapper-locations: classpath:/mapper/**/*.xml
-  configuration:
-    map-underscore-to-camel-case: true

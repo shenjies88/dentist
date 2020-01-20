@@ -7,7 +7,4 @@
 - Vuex
 - VueRouter
 ### 部署
-- ./build 打包
-- ./deploy 部署
-- ./down 停止docker容器并删除容器
-- ./stop 停止容器
+- ./boot
