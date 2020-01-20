@@ -1,7 +1,7 @@
 <template>
     <Card>
         <CommonTable :pageNumChange="pageNumChange" :pageSizeChange="pageSizeChange" :count="this.count"
-                     :loading="loading" :columns="columns" :dataList="patientBaseList" :openModal="openModal"/>
+                      :columns="columns" :dataList="patientBaseList" :openModal="openModal"/>
         <Modal v-model="modalOpen" :title="modalTitle">
             <Form ref="patientBaseForm" :model="entity" :rules="patientBaseRules" :label-width="80">
                 <FormItem label="姓名" prop="name">
@@ -55,7 +55,6 @@
         mixins: [pageReq],
         data: function () {
             return {
-                loading: false,
                 operationType: null,
                 modalOpen: false,
                 modalTitle: null,
@@ -164,10 +163,8 @@
                         this.$Modal.confirm({
                             title: '是否确定删除',
                             onOk: () => {
-                                this.loading = true
                                 this.deletePatientBase(row.id).then(_ => {
                                     this.$Message.success("删除成功")
-                                    this.loading = false
                                     this.getPatientBaseList(pageReq)
                                 }).catch(e => {
                                     console.log(e)
@@ -183,11 +180,9 @@
                     if (valid) {
                         switch (this.operationType) {
                             case "add":
-                                this.loading = true
                                 this.addPatientBase(this.entity)
                                     .then(_ => {
                                         this.$Message.success("添加成功")
-                                        this.loading = false
                                         this.getPatientBaseList(pageReq)
                                         this.close()
                                     })
@@ -198,11 +193,9 @@
                                     })
                                 break;
                             case "update":
-                                this.loading = true
                                 this.updatePatientBase(this.entity)
                                     .then(_ => {
                                         this.$Message.success("修改成功")
-                                        this.loading = false
                                         this.getPatientBaseList(pageReq)
                                         this.close()
                                     })
