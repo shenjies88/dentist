@@ -2,7 +2,7 @@ spring:
   application:
     name: dentist-backend
   datasource:
-    url: jdbc:mysql://localhost:3306/dentist?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2b8
+    url: jdbc:mysql://localhost:3307/dentist?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2b8
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
