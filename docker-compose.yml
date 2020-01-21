@@ -8,12 +8,12 @@ services:
       context: .
       dockerfile: dockerfile-mysql
     ports:
-      - '3307:3306'
+      - 3307:3306
     environment:
       - MYSQL_ROOT_PASSWORD=password
     command: [
-      "--log-bin=mysql-bin",
-      "--server-id=1"
+      --log-bin=mysql-bin,
+      --server-id=1
     ]
     networks:
       - dentist-net
@@ -25,7 +25,7 @@ services:
       context: .
       dockerfile: dockerfile-backend
     ports:
-      - "8080:8080"
+      - 8080:8080
     depends_on:
       - dentist-mysql
     networks:
@@ -38,7 +38,7 @@ services:
       context: .
       dockerfile: dockerfile-front
     ports:
-      - "8000:80"
+      - 8000:80
     depends_on:
       - dentist-mysql
       - dentist-backend
