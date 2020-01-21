@@ -1,0 +1,44 @@
+kind: pipeline
+type: exec
+name: build-deploy
+
+platform:
+  os: darwin
+  arch: amd64
+
+steps:
+  - name: build-backend
+    commands:
+      - mvn clean package -DskipTest
+    when:
+      branch:
+        - master
+      event:
+        - push
+
+  - name: build-front
+    commands:
+      - cd dentist-front
+      - yarn
+      - yarn build
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - build-backend
+
+  - name: deploy
+    commands:
+      - docker-compose build
+      - docker image prune -f
+      - docker-compose up -d
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - build-backend
+      - build-front
