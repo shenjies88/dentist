@@ -13,7 +13,6 @@ const store = {
     },
     actions: {
         getPatientBaseList({commit}, param) {
-            console.log(param);
             api.getPatientBaseList(param).then(res => {
                 commit('setPatientBaseList', res.data);
             })

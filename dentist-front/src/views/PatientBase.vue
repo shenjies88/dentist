@@ -166,6 +166,7 @@
                                 this.deletePatientBase(row.id).then(_ => {
                                     this.$Message.success("删除成功")
                                     this.getPatientBaseList(pageReq)
+                                    location.reload()
                                 }).catch(e => {
                                     console.log(e)
                                     this.$Message.error("删除失败")
@@ -185,6 +186,7 @@
                                         this.$Message.success("添加成功")
                                         this.getPatientBaseList(pageReq)
                                         this.close()
+                                        location.reload()
                                     })
                                     .catch(e => {
                                         console.log(e)
@@ -198,6 +200,7 @@
                                         this.$Message.success("修改成功")
                                         this.getPatientBaseList(pageReq)
                                         this.close()
+                                        location.reload()
                                     })
                                     .catch(e => {
                                         console.log(e)
