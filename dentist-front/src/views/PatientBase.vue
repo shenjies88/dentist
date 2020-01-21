@@ -164,9 +164,9 @@
                             title: '是否确定删除',
                             onOk: () => {
                                 this.deletePatientBase(row.id).then(_ => {
-                                    this.$Message.success("删除成功")
                                     this.getPatientBaseList(pageReq)
                                     location.reload()
+                                    this.$Message.success("删除成功")
                                 }).catch(e => {
                                     console.log(e)
                                     this.$Message.error("删除失败")
@@ -183,10 +183,10 @@
                             case "add":
                                 this.addPatientBase(this.entity)
                                     .then(_ => {
-                                        this.$Message.success("添加成功")
                                         this.getPatientBaseList(pageReq)
                                         this.close()
                                         location.reload()
+                                        this.$Message.success("添加成功")
                                     })
                                     .catch(e => {
                                         console.log(e)
@@ -197,15 +197,15 @@
                             case "update":
                                 this.updatePatientBase(this.entity)
                                     .then(_ => {
-                                        this.$Message.success("修改成功")
                                         this.getPatientBaseList(pageReq)
                                         this.close()
                                         location.reload()
+                                        this.$Message.success("修改成功")
                                     })
                                     .catch(e => {
                                         console.log(e)
-                                        this.$Message.error("修改失败")
                                         this.close()
+                                        this.$Message.error("修改失败")
                                     })
                                 break;
                         }

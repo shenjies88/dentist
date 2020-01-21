@@ -40,6 +40,7 @@ services:
     ports:
       - "8000:80"
     depends_on:
+      - dentist-mysql
       - dentist-backend
     networks:
       - dentist-net
