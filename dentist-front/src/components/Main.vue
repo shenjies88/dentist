@@ -63,8 +63,8 @@
             </Sider>
             <Layout>
                 <Header :style="{padding: 0}" class="layout-header-bar">
-                    <Menu :active-name="topMenuListData[0].name" mode="horizontal" theme="light"  @on-select="headerTopMenuSelect">
-                        <MenuItem v-for="(item,index) in topMenuListData" :name="item.name" :key="index" :to="item.path">
+                    <Menu :active-name="this.topMenuListData[0].name" mode="horizontal" theme="light"  @on-select="headerTopMenuSelect">
+                        <MenuItem v-for="(item,index) in this.topMenuListData" :name="item.name" :key="index" :to="item.path">
                             {{item.meta.title}}
                         </MenuItem>
                     </Menu>
@@ -85,17 +85,18 @@
     </div>
 </template>
 <script>
+    import {mapState} from "vuex";
+
     export default {
-        data() {
-            return {
-                sideMenuListData: this.$router.options.routes[0].children,
-                topMenuListData: this.$router.options.routes
-            }
-        },
         methods: {
             headerTopMenuSelect: function (name) {
                 this.sideMenuListData = this.topMenuListData.find(e => e.name === name).children
             }
         },
+        computed: mapState({
+                topMenuListData: state => state.global.topMenuListData,
+                sideMenuListData: state => state.global.sideMenuListData
+            })
+
     }
 </script>

@@ -8,7 +8,16 @@ Vue.use(VueRouter);
 
 const routes = [
   patient,
-  material
+  material,
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@v/Login'),
+    meta: {
+      title: '登陆',
+      exclude: true
+    }
+  }
 ];
 
 const router = new VueRouter({
@@ -16,14 +25,23 @@ const router = new VueRouter({
   routes
 });
 
+const LOGIN_PAGE = 'login';
+const FIRST_PAGE = 'patient';
+
 router.beforeEach((to, from, next) => {
   ViewUI.LoadingBar.start();
-
-  if (to.path === '/') {
-    router.push('/patient/base')
-  }
   if (to.meta.title) {
     document.title = to.meta.title
+  }
+  //如果没有token
+  if (localStorage.getItem('token') && localStorage.getItem('token') === '') {
+    router.push(LOGIN_PAGE);
+    next()
+    //如果有token了，就转到第一个页面
+  }
+  if (localStorage.getItem('token') && localStorage.getItem('token') != '' && to.path === '/') {
+    router.push(FIRST_PAGE);
+    next()
   }
   next()
 });
