@@ -3,7 +3,7 @@ type: exec
 name: build-deploy
 
 platform:
-  os: darwin
+  os: linux
   arch: amd64
 
 steps:
