@@ -1,14 +1,13 @@
 kind: pipeline
-type: docker
+type: exec
 name: build-deploy
 
 platform:
-  os: linux
+  os: darwin
   arch: amd64
 
 steps:
   - name: build-backend
-    image: maven:3.3-jdk-8
     commands:
       - mvn clean package -DskipTest
     when:
@@ -18,7 +17,6 @@ steps:
         - push
 
   - name: build-front
-    image: node:10
     commands:
       - cd dentist-front
       - yarn
@@ -30,17 +28,17 @@ steps:
         - push
     depends_on:
       - build-backend
-  #
-  #  - name: deploy
-  #    commands:
-  #      - docker-compose build
-  #      - docker image prune -
-#      - docker-compose up -d
-#    when:
-#      branch:
-#        - master
-#      event:
-#        - push
-#    depends_on:
-#      - build-backend
-#      - build-front
+
+  - name: deploy
+    commands:
+      - docker-compose build
+      - docker image prune -f
+      - docker-compose up -d
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - build-backend
+      - build-front
