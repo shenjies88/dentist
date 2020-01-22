@@ -30,12 +30,13 @@ steps:
         - push
     depends_on:
       - build-backend
-#
-#  - name: deploy
+  #
+  #  - name: deploy
 
-#    commands:
-#      - docker-compose build
-#      - docker image prune -f
+  #    commands:
+  #      - docker-compose build
+  #      - docker image prune -
+#  f
 #      - docker-compose up -d
 #    when:
 #      branch:
