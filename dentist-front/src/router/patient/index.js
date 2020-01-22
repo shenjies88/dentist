@@ -6,14 +6,14 @@ const router = {
     redirect: '/patient/base',
     component: Main,
     meta: {
-        title: '病人'
+        title: '人员'
     },
     children: [
         {
             path: 'base',
             name: 'patient-base',
             meta: {
-                title: '病人基本信息'
+                title: '人员基本信息'
             },
             component: () => import('@v/PatientBase')
         }

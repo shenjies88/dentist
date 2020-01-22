@@ -164,8 +164,7 @@
                             title: '是否确定删除',
                             onOk: () => {
                                 this.deletePatientBase(row.id).then(_ => {
-                                    this.getPatientBaseList(pageReq)
-                                    location.reload()
+                                    this.$nextTick(this.getPatientBaseList(pageReq))
                                     this.$Message.success("删除成功")
                                 }).catch(e => {
                                     this.$Message.error("删除失败")
@@ -182,9 +181,8 @@
                             case "add":
                                 this.addPatientBase(this.entity)
                                     .then(_ => {
-                                        this.getPatientBaseList(pageReq)
+                                        this.$nextTick(this.getPatientBaseList(pageReq))
                                         this.close()
-                                        location.reload()
                                         this.$Message.success("添加成功")
                                     })
                                     .catch(e => {
@@ -195,9 +193,8 @@
                             case "update":
                                 this.updatePatientBase(this.entity)
                                     .then(_ => {
-                                        this.getPatientBaseList(pageReq)
+                                        this.$nextTick(this.getPatientBaseList(pageReq))
                                         this.close()
-                                        location.reload()
                                         this.$Message.success("修改成功")
                                     })
                                     .catch(e => {

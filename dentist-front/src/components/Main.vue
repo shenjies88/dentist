@@ -53,18 +53,21 @@
         <Layout>
             <Sider :style="{height: '100vh'}">
                 <div class="logo-con">
-                    <span>轻松牙医</span>
+                    <span>脚手架</span>
                 </div>
                 <Menu :active-name="this.sideMenuListData[0].name" theme="dark" width="auto">
-                    <MenuItem v-for="(item, index) in this.sideMenuListData" :name="item.name" :key="index" :to="item.path">
+                    <MenuItem v-for="(item, index) in this.sideMenuListData" :name="item.name" :key="index"
+                              :to="item.path">
                         {{item.meta.title}}
                     </MenuItem>
                 </Menu>
             </Sider>
             <Layout>
                 <Header :style="{padding: 0}" class="layout-header-bar">
-                    <Menu :active-name="this.topMenuListData[0].name" mode="horizontal" theme="light"  @on-select="headerTopMenuSelect">
-                        <MenuItem v-for="(item,index) in this.topMenuListData" :name="item.name" :key="index" :to="item.path">
+                    <Menu :active-name="this.topMenuListData[0].name" mode="horizontal" theme="light"
+                          @on-select="headerTopMenuSelect">
+                        <MenuItem v-for="(item,index) in this.topMenuListData" :name="item.name" :key="index"
+                                  :to="item.path">
                             {{item.meta.title}}
                         </MenuItem>
                     </Menu>
@@ -85,21 +88,25 @@
     </div>
 </template>
 <script>
-    import { mapMutations, mapState} from "vuex";
+    import {mapMutations, mapState} from "vuex";
 
     export default {
         methods: {
             headerTopMenuSelect: function (name) {
-                this.setSideMenuListData(this.topMenuListData.find(e => e.name === name).children)
+                this.setSideMenuListData({
+                    routes: this.topMenuListData.find(e => e.name === name).children,
+                    permissions: this.permission
+                })
             },
             ...mapMutations({
                 setSideMenuListData: 'setSideMenuListData'
             })
         },
         computed: mapState({
-                topMenuListData: state => state.global.topMenuListData,
-                sideMenuListData: state => state.global.sideMenuListData
-            })
+            topMenuListData: state => state.global.topMenuListData,
+            sideMenuListData: state => state.global.sideMenuListData,
+            permissions: state => state.user.permissions
+        })
 
     }
 </script>

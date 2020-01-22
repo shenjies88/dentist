@@ -4,12 +4,14 @@ const store = {
     state: {
         userName: '',
         password: '',
+        permissions: []
     },
     mutations: {
         setUserInfo(state, data) {
             this.state.user = {
                 userName: data.userName,
-                password: data.password
+                password: data.password,
+                permissions: data.permission
             };
             localStorage.setItem('token', data.token)
         }

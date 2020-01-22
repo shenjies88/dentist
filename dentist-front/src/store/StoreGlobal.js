@@ -8,17 +8,22 @@ const store = {
         sideMenuListData: [],
     },
     mutations: {
-        setRoutes(state, routes) {
-            this.state.global.topMenuListData = filterRoutes(routes);
-            this.state.global.sideMenuListData = filterRoutes(filterRoutes(routes)[0].children)
+        setRoutes(state, {routes, permissions}) {
+            this.state.global = {
+                topMenuListData: filterRoutes(routes),
+                sideMenuListData: filterRoutes(filterRoutes(routes)[0].children)
+            }
         },
-        setSideMenuListData(state, routes) {
-            this.state.global.sideMenuListData = filterRoutes(routes);
+        setSideMenuListData(state, {routes, permissions}) {
+            this.state.global = {
+                ...this.state.global,
+                sideMenuListData: filterRoutes(routes)
+            };
         }
     },
     actions: {
-        setRoutesAction({commit}, routes) {
-            commit('setRoutes', routes)
+        setRoutesAction({commit}, data) {
+            commit('setRoutes', data)
         }
     }
 

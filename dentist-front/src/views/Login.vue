@@ -19,8 +19,9 @@
 </template>
 
 <script>
-    import {mapActions} from "vuex";
+    import {mapActions, mapState} from "vuex";
     import config from '@/config'
+
     export default {
         name: "Login",
         data() {
@@ -45,7 +46,7 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         this.login(this.formInline).then(_ => {
-                            this.setRoutesAction(this.$router.options.routes)
+                            this.setRoutesAction({routes: this.$router.options.routes, permissions: this.permissions})
                             this.$router.push(config.FIRST_PAGE)
                             this.$Message.success('登陆成功')
                         })
@@ -56,6 +57,11 @@
                 login: 'login',
                 setRoutesAction: 'setRoutesAction'
             }),
+        },
+        computed: {
+            ...mapState({
+                permissions: state => state.user.permissions
+            })
         }
     }
 </script>
