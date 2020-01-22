@@ -32,7 +32,6 @@ steps:
       - build-backend
   #
   #  - name: deploy
-asd
   #    commands:
   #      - docker-compose build
   #      - docker image prune -
