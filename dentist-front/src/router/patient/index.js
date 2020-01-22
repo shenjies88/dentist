@@ -6,7 +6,7 @@ const router = {
     redirect: '/patient/base',
     component: Main,
     meta: {
-        title: '人员'
+        title: '人员',
     },
     children: [
         {

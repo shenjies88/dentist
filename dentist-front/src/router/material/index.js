@@ -8,7 +8,6 @@ const router = {
     component: Main,
     meta: {
         title: '物资',
-        permissions: ['material']
     },
     children: [
         {
@@ -16,7 +15,6 @@ const router = {
             name: 'material-ada',
             meta: {
                 title: 'Material',
-                permissions: ['material-ada']
             },
             component: () => import('@v/Material')
         }

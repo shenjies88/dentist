@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -33,6 +34,7 @@ public class UserController {
             map.put("userName", body.getUserName());
             map.put("password", body.getPassword());
             map.put("token", (System.currentTimeMillis() + new Random().nextInt(999999999)) + "");
+            map.put("permissions", new ArrayList<>());
             return HttpResult.success(map);
         } else {
             throw new RuntimeException("账号或者密码错误");
