@@ -48,7 +48,7 @@ switchFunction() {
             build
         ;;
         2)
-            docker-compose build && docker image prune -f &&  docker-compose up -d
+            docker-compose down && docker-compose build && docker image prune -f &&  docker-compose up -d
         ;;
         3)
             docker-compose start
