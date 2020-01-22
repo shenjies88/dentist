@@ -1,17 +1,26 @@
+const filterRoutes = routes => {
+    return routes.filter(e => e.meta.exclude === undefined);
+};
+
 const store = {
     state: {
         topMenuListData: [],
-        sideMenuListData: {},
+        sideMenuListData: [],
     },
     mutations: {
         setRoutes(state, routes) {
-            //权限以及排除调的路由
-            const top = routes.filter(e => e.meta.exclude === undefined);
-            this.state.global.topMenuListData = top;
-            this.state.global.sideMenuListData = top[0]
+            this.state.global.topMenuListData = filterRoutes(routes);
+            this.state.global.sideMenuListData = filterRoutes(filterRoutes(routes)[0].children)
+        },
+        setSideMenuListData(state, routes) {
+            this.state.global.sideMenuListData = filterRoutes(routes);
         }
     },
-    actions: {}
+    actions: {
+        setRoutesAction({commit}, routes) {
+            commit('setRoutes', routes)
+        }
+    }
 
 };
 

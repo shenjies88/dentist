@@ -7,8 +7,7 @@ const store = {
     },
     mutations: {
         setPatientBaseList(state, data) {
-            this.state.patientBase.patientBaseList = data.list;
-            this.state.patientBase.count = data.count
+            this.state.patientBase = {patientBaseList: data.list, count: data.count}
         }
     },
     actions: {

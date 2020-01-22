@@ -19,8 +19,8 @@
 </template>
 
 <script>
-    import {mapActions, mapMutations} from "vuex";
-
+    import {mapActions} from "vuex";
+    import config from '@/config'
     export default {
         name: "Login",
         data() {
@@ -45,19 +45,17 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         this.login(this.formInline).then(_ => {
-                            this.setRoutes(this.$router.options.routes)
-                            this.$router.push('/')
+                            this.setRoutesAction(this.$router.options.routes)
+                            this.$router.push(config.FIRST_PAGE)
                             this.$Message.success('登陆成功')
                         })
                     }
                 })
             },
             ...mapActions({
-                login: 'login'
+                login: 'login',
+                setRoutesAction: 'setRoutesAction'
             }),
-            ...mapMutations({
-                setRoutes: 'setRoutes'
-            })
         }
     }
 </script>

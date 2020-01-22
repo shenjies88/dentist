@@ -7,8 +7,10 @@ const store = {
     },
     mutations: {
         setUserInfo(state, data) {
-            this.state.user.userName = data.userName;
-            this.state.user.password = data.password;
+            this.state.user = {
+                userName: data.userName,
+                password: data.password
+            };
             localStorage.setItem('token', data.token)
         }
     },

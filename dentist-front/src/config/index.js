@@ -4,7 +4,9 @@ const config = {
         pro: '',
     },
     apiSuccessCode: [0],
-    preUrl: '/api'
+    preUrl: '/api',
+    LOGIN_PAGE: 'login',
+    FIRST_PAGE: 'patient'
 };
 
 export default config

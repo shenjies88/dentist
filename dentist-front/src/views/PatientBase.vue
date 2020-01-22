@@ -168,7 +168,6 @@
                                     location.reload()
                                     this.$Message.success("删除成功")
                                 }).catch(e => {
-                                    console.log(e)
                                     this.$Message.error("删除失败")
                                 })
                             }
@@ -189,7 +188,6 @@
                                         this.$Message.success("添加成功")
                                     })
                                     .catch(e => {
-                                        console.log(e)
                                         this.close()
                                         this.$Message.error("添加失败")
                                     })
@@ -203,7 +201,6 @@
                                         this.$Message.success("修改成功")
                                     })
                                     .catch(e => {
-                                        console.log(e)
                                         this.close()
                                         this.$Message.error("修改失败")
                                     })
