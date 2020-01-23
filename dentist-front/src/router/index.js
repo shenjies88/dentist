@@ -57,6 +57,7 @@ router.beforeEach((to, from, next) => {
                 // 获取用户信息，获取成功就添加路由然后跳转
                 store.dispatch('getUserInfo').then(_ => {
                     let permissions = store.state.user.permissions;
+                    console.log(permissions)
                     store.dispatch('GenerateRoutes', {permissions, routes: asyncRouter}).then(routers => {
                         router.addRoutes(routers);
                         next({...to, replace: true});

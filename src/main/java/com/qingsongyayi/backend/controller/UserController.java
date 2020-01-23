@@ -5,10 +5,7 @@ import com.qingsongyayi.backend.vo.LoginVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,5 +36,17 @@ public class UserController {
         } else {
             throw new RuntimeException("账号或者密码错误");
         }
+    }
+
+    @ApiOperation("用户信息")
+    @GetMapping("/info")
+    public HttpResult info() {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("userName", "admin");
+        map.put("password", "password");
+        map.put("token", (System.currentTimeMillis() + new Random().nextInt(999999999)) + "");
+        map.put("permissions", new ArrayList<>());
+        return HttpResult.success(map);
     }
 }
