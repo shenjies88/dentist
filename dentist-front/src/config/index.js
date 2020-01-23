@@ -6,7 +6,7 @@ const config = {
     apiSuccessCode: [0],
     preUrl: '/api',
     LOGIN_PAGE: '/login',
-    FIRST_PAGE: '/patient',
+    FIRST_PAGE: '/',
     NO_PERMISSION_PAGE: '/401',
 };
 

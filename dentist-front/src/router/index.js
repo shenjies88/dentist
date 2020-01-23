@@ -23,8 +23,8 @@ const asyncRouter = [
 //系统加载时到必要的路由
 const constRouter = [
     {path: '/login', name: 'login', component: () => import('@/views/Login'), hidden: true, meta: {title: '登陆',}},
-    {path: '/404', name: '404', component: () => import('@/views/404Page'), hidden: true, meta: {title: '未找到页面',}},
-    {path: '/401', name: '401', component: () => import('@/views/401Page'), hidden: true, meta: {title: '权限不足',}},
+    {path: '/404', name: '404', component: () => import('@/views/NoFindPage'), hidden: true, meta: {title: '未找到页面',}},
+    {path: '/401', name: '401', component: () => import('@/views/NoPermissionPage'), hidden: true, meta: {title: '权限不足',}},
 ];
 
 const router = new VueRouter({
@@ -57,7 +57,7 @@ router.beforeEach((to, from, next) => {
                 // 获取用户信息，获取成功就添加路由然后跳转
                 store.dispatch('getUserInfo').then(_ => {
                     let permissions = store.state.user.permissions;
-                    store.dispatch('GenerateRoutes', {permissions, routers: asyncRouter}).then(routers => {
+                    store.dispatch('GenerateRoutes', {permissions, routes: asyncRouter}).then(routers => {
                         router.addRoutes(routers);
                         next({...to, replace: true});
                     })

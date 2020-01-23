@@ -4,7 +4,7 @@
 
 <script>
     export default {
-        name: "401Page"
+        name: "NoPermissionPage"
     }
 </script>
 

@@ -4,7 +4,7 @@
 
 <script>
     export default {
-        name: "404Page"
+        name: "NoFindPage"
     }
 </script>
 

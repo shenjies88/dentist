@@ -1,7 +1,7 @@
 import Main from '@/components/Main'
 
 const router = {
-    path: '/patient',
+    path: '/',
     name: 'patient',
     redirect: '/patient/base',
     component: Main,
@@ -10,7 +10,7 @@ const router = {
     },
     children: [
         {
-            path: 'base',
+            path: '/patient/base',
             name: 'patient-base',
             meta: {
                 title: '人员基本信息'
