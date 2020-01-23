@@ -128,7 +128,7 @@
                 ]
             }
         },
-        mounted() {
+        created() {
             this.getPatientBaseList(pageReq);
         },
         methods: {

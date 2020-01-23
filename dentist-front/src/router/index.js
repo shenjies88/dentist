@@ -35,7 +35,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     LoadingBar.start();
-    next()
     // 如果有token
     if (tokenUtl.getToken()) {
         //是登陆页面就直接跳转到首页
@@ -44,20 +43,11 @@ router.beforeEach((to, from, next) => {
         } else {
             //判断是否有用户信息在store里
             //有用户信息
-            if (store.state.user.userName !== '') {
-                //有权限就跳转
-                if (permissionUtil.hasPermissions(to.meta.permissions, store.state.user.permissions).length === 0) {
-                    next();
-                } else {
-                    //没权限就到401
-                    next({path: config.NO_PERMISSION_PAGE, replace: true, query: {noGoBack: true}});
-                }
-            } else {
+            if (store.state.user.userName === '') {
                 // 无用户信息，用户登陆过，但是关闭了浏览器，导致store里数据消失，
                 // 获取用户信息，获取成功就添加路由然后跳转
-                store.dispatch('getUserInfo').then(_ => {
-                    let permissions = store.state.user.permissions;
-                    console.log(permissions)
+                store.dispatch('getUserInfo').then(data => {
+                    let permissions = data.permissions;
                     store.dispatch('GenerateRoutes', {permissions, routes: asyncRouter}).then(routers => {
                         router.addRoutes(routers);
                         next({...to, replace: true});
@@ -69,6 +59,14 @@ router.beforeEach((to, from, next) => {
                     tokenUtl.removeToken();
                     next({path: config.LOGIN_PAGE});
                 })
+            } else {
+                //有权限就跳转
+                if (permissionUtil.hasPermissions(to.meta.permissions, store.state.user.permissions).length === 0) {
+                    next();
+                } else {
+                    //没权限就到401
+                    next({path: config.NO_PERMISSION_PAGE, replace: true, query: {noGoBack: true}});
+                }
             }
         }
     } else {

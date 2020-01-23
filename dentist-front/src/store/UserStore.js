@@ -21,7 +21,7 @@ const store = {
             this.state.user.routes = routes;
             this.state.user.sideMenuListData = routes[0].children;
         },
-        setSideMenuListData(_,sideMenuListData) {
+        setSideMenuListData(_, sideMenuListData) {
             this.state.user.sideMenuListData = sideMenuListData;
         }
     },
@@ -33,17 +33,22 @@ const store = {
         },
         // 实际生产实践到时候需要带上token去请求后端
         getUserInfo({commit}, _) {
-            api.getUserInfo().then(res => {
-                commit('setUserInfo', res.data)
-            }).catch(e => {
-                return Promise.reject(e)
+            return new Promise((resolve, reject) => {
+                api.getUserInfo().then(res => {
+                    commit('setUserInfo', res.data);
+                    resolve(res.data);
+                }).catch(e => {
+                    reject(e);
+                })
             });
         },
         //过滤路由
         GenerateRoutes({commit}, {routes, permissions}) {
-            let filterRoutes = permissionUtil.filterRoutes(routes, permissions);
-            commit('setRoutes', filterRoutes)
-            return filterRoutes;
+            return new Promise((resolve, reject) => {
+                let filterRoutes = permissionUtil.filterRoutes(routes, permissions);
+                commit('setRoutes', filterRoutes)
+                return filterRoutes;
+            })
         }
     }
 

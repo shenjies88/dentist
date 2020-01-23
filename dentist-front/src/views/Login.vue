@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-left: 30% ; margin-top: 20% ; width: 200px">
+    <div style="margin-left: 37% ; margin-top: 5% ; width: 200px">
         <Card>
             <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
                 <FormItem prop="userName">
