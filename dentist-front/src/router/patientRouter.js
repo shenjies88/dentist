@@ -1,4 +1,4 @@
-import Main from '@components/Main'
+import Main from '@/components/Main'
 
 const router = {
     path: '/patient',
@@ -15,7 +15,7 @@ const router = {
             meta: {
                 title: '人员基本信息'
             },
-            component: () => import('@v/PatientBase')
+            component: () => import('@/views/PatientBase')
         }
     ]
 };

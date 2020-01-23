@@ -5,8 +5,9 @@ const config = {
     },
     apiSuccessCode: [0],
     preUrl: '/api',
-    LOGIN_PAGE: 'login',
-    FIRST_PAGE: 'patient'
+    LOGIN_PAGE: '/login',
+    FIRST_PAGE: '/patient',
+    NO_PERMISSION_PAGE: '/401',
 };
 
 export default config

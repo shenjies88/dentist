@@ -4,6 +4,9 @@ const tokenUtl = {
     },
     setToken: function (token) {
         localStorage.setItem('token', token)
+    },
+    removeToken: function () {
+        localStorage.removeItem('token')
     }
 }
 

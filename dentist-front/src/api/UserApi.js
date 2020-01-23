@@ -11,6 +11,14 @@ const login = (data) => {
     })
 };
 
+const getUserInfo = () => {
+    return axios.request({
+        url: config.preUrl + baseUrl + '/info',
+        method: 'get'
+    })
+}
+
 export default {
-    login
+    login,
+    getUserInfo
 }

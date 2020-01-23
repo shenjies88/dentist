@@ -1,4 +1,4 @@
-import Main from '@components/Main'
+import Main from '@/components/Main'
 
 
 const router = {
@@ -16,7 +16,7 @@ const router = {
             meta: {
                 title: '物资购入',
             },
-            component: () => import('@views/MaterialInput')
+            component: () => import('@/views/MaterialInput')
         }
     ]
 };

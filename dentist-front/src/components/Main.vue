@@ -95,7 +95,10 @@
                 this.sideMenuListData = this.topMenuListData.find(e => e.name === name).children;
             },
         },
-        computed: {
+        created() {
+            console.log(this)
+        },
+        comments: {
             topMenuListData: [],
             sideMenuListData: [],
         }

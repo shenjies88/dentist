@@ -1,33 +1,6 @@
 import api from '@/api/UserApi'
 import tokenUtil from '@/libs/tokenUtil'
-
-const filterRoutes = (routes, permissions) => {
-    if (routes !== undefined) {
-        let topRouters = routes.filter(e => e.hidden === undefined
-            && (e.meta.permissions === undefined || subSet(e.meta.permissions, permissions).length === 0));
-
-        topRouters.forEach(e => {
-            let subRouters = filterRoutes(e.children,permissions);
-            e.children = subRouters
-        })
-        return topRouters;
-    }
-};
-
-const subSet = function (arr1, arr2) {
-    let set1 = new Set(arr1);
-    let set2 = new Set(arr2);
-
-    let subset = [];
-
-    for (let item of set1) {
-        if (!set2.has(item)) {
-            subset.push(item);
-        }
-    }
-
-    return subset;
-};
+import permissionUtil from "@/libs/permissionUtil";
 
 const store = {
     state: {
@@ -37,11 +10,9 @@ const store = {
     },
     mutations: {
         setUserInfo(state, data) {
-            this.state.user = {
-                userName: data.userName,
-                password: data.password,
-                permissions: data.permission
-            };
+            this.state.user.userName = data.userName;
+            this.state.user.password = data.password;
+            this.state.user.permissions = data.permissions;
             tokenUtil.setToken(data.token)
         }
     },
@@ -50,6 +21,27 @@ const store = {
             api.login(data).then(res => {
                 commit('setUserInfo', res.data)
             })
+        },
+        /**
+         *  实际生产实践到时候需要带上token去请求后端
+         * @param commit
+         * @param _
+         */
+        getUserInfo({commit}, _) {
+            api.getUserInfo().then(res => {
+                commit('setUserInfo', res.data)
+            });
+        },
+        /**
+         * 过滤路由
+         * @param _
+         * @param routers
+         * @param permissions
+         * @returns {*}
+         * @constructor
+         */
+        GenerateRoutes(_, {routers, permissions}) {
+            return permissionUtil.filterRoutes(routers, permissions);
         }
     }
 

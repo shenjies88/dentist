@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {Message} from 'view-design'
 import config from '@/config'
+import tokenUtl from "./tokenUtil";
 
 class HttpRequest {
     constructor(baseUrl) {
@@ -32,6 +33,9 @@ class HttpRequest {
             //   Spin.show() // 不建议开启，因为界面不友好
             // }
             this.queue[url] = true;
+            if (tokenUtl.getToken()) { // 判断是否存在token，如果存在的话，则每个http header都加上token
+                config.headers.token = tokenUtl.getToken();
+            }
             return config
         }, error => {
             return Promise.reject(error)
