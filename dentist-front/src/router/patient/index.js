@@ -1,4 +1,4 @@
-import Main from '@c/Main'
+import Main from '@components/Main'
 
 const router = {
     path: '/patient',

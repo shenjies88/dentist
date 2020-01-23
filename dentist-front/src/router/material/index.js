@@ -1,22 +1,22 @@
-import Main from '@c/Main'
+import Main from '@components/Main'
 
 
 const router = {
     path: '/material',
     name: 'material',
-    redirect: '/material/ada',
+    redirect: '/material/input',
     component: Main,
     meta: {
         title: '物资',
     },
     children: [
         {
-            path: 'ada',
-            name: 'material-ada',
+            path: 'input',
+            name: 'material-input',
             meta: {
-                title: 'Material',
+                title: '物资购入',
             },
-            component: () => import('@v/Material')
+            component: () => import('@views/MaterialInput')
         }
     ]
 };

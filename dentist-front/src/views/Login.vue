@@ -1,21 +1,23 @@
 <template>
-    <Card>
-        <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
-            <FormItem prop="userName">
-                <Input type="text" v-model="formInline.userName" placeholder="admin">
-                    <Icon type="ios-person-outline" slot="prepend"></Icon>
-                </Input>
-            </FormItem>
-            <FormItem prop="password">
-                <Input type="password" v-model="formInline.password" placeholder="password">
-                    <Icon type="ios-lock-outline" slot="prepend"></Icon>
-                </Input>
-            </FormItem>
-            <FormItem>
-                <Button type="primary" @click="handleSubmit('formInline')">登陆</Button>
-            </FormItem>
-        </Form>
-    </Card>
+    <div style="margin-left: 30% ; margin-top: 20% ; width: 200px">
+        <Card>
+            <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
+                <FormItem prop="userName">
+                    <Input type="text" v-model="formInline.userName" placeholder="admin">
+                        <Icon type="ios-person-outline" slot="prepend"></Icon>
+                    </Input>
+                </FormItem>
+                <FormItem prop="password">
+                    <Input type="password" v-model="formInline.password" placeholder="password">
+                        <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                    </Input>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" @click="handleSubmit('formInline')">登陆</Button>
+                </FormItem>
+            </Form>
+        </Card>
+    </div>
 </template>
 
 <script>
@@ -46,7 +48,6 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         this.login(this.formInline).then(_ => {
-                            this.setRoutesAction({routes: this.$router.options.routes, permissions: this.permissions})
                             this.$router.push(config.FIRST_PAGE)
                             this.$Message.success('登陆成功')
                         })
@@ -54,15 +55,9 @@
                 })
             },
             ...mapActions({
-                login: 'login',
-                setRoutesAction: 'setRoutesAction'
+                login: 'login'
             }),
         },
-        computed: {
-            ...mapState({
-                permissions: state => state.user.permissions
-            })
-        }
     }
 </script>
 

@@ -1,12 +1,12 @@
 <template>
     <Card>
-        Material
+        物资购入
     </Card>
 </template>
 
 <script>
     export default {
-        name: "Material"
+        name: "MaterialInput"
     }
 </script>
 

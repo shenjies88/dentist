@@ -88,25 +88,17 @@
     </div>
 </template>
 <script>
-    import {mapMutations, mapState} from "vuex";
 
     export default {
         methods: {
             headerTopMenuSelect: function (name) {
-                this.setSideMenuListData({
-                    routes: this.topMenuListData.find(e => e.name === name).children,
-                    permissions: this.permission
-                })
+                this.sideMenuListData = this.topMenuListData.find(e => e.name === name).children;
             },
-            ...mapMutations({
-                setSideMenuListData: 'setSideMenuListData'
-            })
         },
-        computed: mapState({
-            topMenuListData: state => state.global.topMenuListData,
-            sideMenuListData: state => state.global.sideMenuListData,
-            permissions: state => state.user.permissions
-        })
+        computed: {
+            topMenuListData: [],
+            sideMenuListData: [],
+        }
 
     }
 </script>

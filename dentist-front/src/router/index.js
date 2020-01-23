@@ -7,42 +7,34 @@ import config from '@/config'
 
 Vue.use(VueRouter);
 
-const routes = [
+//根据权限动态添加的路由
+const asyncRouter = [
     patient,
     material,
+];
+
+//系统加载时到必要的路由
+const constRouter = [
     {
         path: '/login',
         name: 'login',
-        component: () => import('@v/Login'),
+        component: () => import('@view/Login'),
+        hidden: true,
         meta: {
             title: '登陆',
-            exclude: true
         }
     }
 ];
 
+
 const router = new VueRouter({
     mode: 'history',
-    routes
+    constRouter
 });
 
 
 router.beforeEach((to, from, next) => {
     ViewUI.LoadingBar.start();
-    if (to.meta.title) {
-        document.title = to.meta.title
-    }
-    //如果没有token，就到登陆页面
-    if (localStorage.getItem('token') === '' && localStorage.getItem('token')) {
-        router.push(config.LOGIN_PAGE);
-        next()
-    }
-    //如果有token了，就转到第一个页面
-    if (to.path === '/' && localStorage.getItem('token') !== '' && localStorage.getItem('token')) {
-        router.push(config.FIRST_PAGE);
-        next()
-    }
-    next()
 });
 
 router.afterEach(to => {

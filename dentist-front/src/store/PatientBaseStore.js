@@ -1,4 +1,4 @@
-import api from '@/api/ApiPatientBase'
+import api from '@/api/PatientBaseApi'
 
 const store = {
     state: {
