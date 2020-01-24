@@ -1,6 +1,7 @@
 <template>
     <Card>
-        <CommonTable :pageNumChange="pageNumChange" :pageSizeChange="pageSizeChange" :count="count"
+        <CommonTable :loading="tableLoading" :pageNumChange="pageNumChange" :pageSizeChange="pageSizeChange"
+                     :count="count"
                      :columns="columns" :dataList="patientBaseList" :openModal="openModal"/>
         <Modal v-model="modalOpen" :title="modalTitle">
             <Form ref="patientBaseForm" :model="entity" :rules="patientBaseRules" :label-width="80">
@@ -34,7 +35,7 @@
                     <Input type="text" v-model="entity.createAt" :readonly="operationType === 'detail'"/>
                 </FormItem>
                 <FormItem v-if="operationType === 'add' || operationType === 'update' ">
-                    <Button type="info" @click="handleSubmit('patientBaseForm')">提交</Button>
+                    <Button :disabled="submitDisabled" type="info" @click="handleSubmit('patientBaseForm')">提交</Button>
                 </FormItem>
             </Form>
             <div slot="footer">
@@ -48,7 +49,6 @@
 
     import pageReq from "@/libs/pageReq";
     import CommonTable from "@/components/CommonTable";
-    import patientBaseApi from '@/api/PatientBaseApi'
     import {mapActions, mapState} from "vuex";
 
     export default {
@@ -57,7 +57,9 @@
         computed: {
             ...mapState({
                 patientBaseList: state => state.patientBase.patientBaseList,
-                count: state => state.patientBase.count
+                count: state => state.patientBase.count,
+                submitDisabled: state => state.patientBase.submitDisabled,
+                tableLoading: state => state.patientBase.tableLoading
             })
         },
         data: function () {
@@ -141,6 +143,9 @@
         methods: {
             ...mapActions({
                 getPatientBaseList: 'getPatientBaseList',
+                deletePatientBase: 'deletePatientBase',
+                addPatientBase: 'addPatientBase',
+                updatePatientBase: 'updatePatientBase',
             }),
             setModal: function (name, type) {
                 this.modalTitle = name;
@@ -167,7 +172,7 @@
                         this.$Modal.confirm({
                             title: '是否确定删除',
                             onOk: () => {
-                                patientBaseApi.deletePatientBase(row.id).then(_ => {
+                                this.deletePatientBase(row.id).then(_ => {
                                     this.getPatientBaseList(pageReq);
                                     this.$Message.success("删除成功")
                                 }).catch(e => {
@@ -183,7 +188,7 @@
                     if (valid) {
                         switch (this.operationType) {
                             case "add":
-                                patientBaseApi.addPatientBase(this.entity).then(_ => {
+                                this.addPatientBase(this.entity).then(_ => {
                                     this.getPatientBaseList(pageReq);
                                     this.close();
                                     this.$Message.success("添加成功")
@@ -193,7 +198,7 @@
                                 });
                                 break;
                             case "update":
-                                patientBaseApi.updatePatientBase(this.entity).then(_ => {
+                                this.updatePatientBase(this.entity).then(_ => {
                                     this.getPatientBaseList(pageReq);
                                     this.close();
                                     this.$Message.success("修改成功")
