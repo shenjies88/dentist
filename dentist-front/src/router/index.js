@@ -5,31 +5,15 @@ import store from '@/store';
 import tokenUtl from "@/libs/tokenUtil";
 import permissionUtil from "@/libs/permissionUtil";
 import config from '@/config'
-import material from './materialRouter'
-import patient from './patientRouter'
 
 Vue.use(VueRouter);
 
 //白名单，没token也可以看的页面
 const whiteList = ['/login', '/404', '/401'];
 
-//根据权限动态添加的路由
-const asyncRouter = [
-    patient,
-    material,
-    {path: '*', redirect: '/404', hidden: true}
-];
-
-//系统加载时到必要的路由
-const constRouter = [
-    {path: '/login', name: 'login', component: () => import('@/views/Login'), hidden: true, meta: {title: '登陆',}},
-    {path: '/404', name: '404', component: () => import('@/views/NoFindPage'), hidden: true, meta: {title: '未找到页面',}},
-    {path: '/401', name: '401', component: () => import('@/views/NoPermissionPage'), hidden: true, meta: {title: '权限不足',}},
-];
-
 const router = new VueRouter({
     mode: 'history',
-    routes: constRouter
+    routes: config.constRouter
 });
 
 
@@ -47,15 +31,13 @@ router.beforeEach((to, from, next) => {
                 // 无用户信息，用户登陆过，但是关闭了浏览器，导致store里数据消失，
                 // 获取用户信息，获取成功就添加路由然后跳转
                 store.dispatch('getUserInfo').then(permissions => {
-                    store.dispatch('GenerateRoutes', {permissions, routes: asyncRouter}).then(routers => {
+                    store.dispatch('GenerateRoutes', {permissions, routes: config.asyncRouter}).then(routers => {
                         router.addRoutes(routers);
                         next({...to, replace: true});
-                    }).catch(e => {
-                        console.log(e)
-                    })
+                    });
                 }).catch(e => {
+                    console.log(e);
                     // 失败就删除token跳转到登陆页面
-                    console.log(e)
                     tokenUtl.removeToken();
                     next({path: config.LOGIN_PAGE});
                 })

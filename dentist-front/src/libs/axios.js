@@ -44,7 +44,7 @@ class HttpRequest {
         instance.interceptors.response.use(res => {
             this.destroy(url);
             const {data, status} = res;
-            if (status == 200 && data && config.apiSuccessCode.includes(data.code)) {
+            if (status === 200 && data && config.apiSuccessCode.includes(data.code)) {
                 return data
             } else if (data.message) {
                 Message.error(data.message);

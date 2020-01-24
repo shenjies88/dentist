@@ -16,7 +16,7 @@ const store = {
     mutations: {
         setUserInfo(_, data) {
             this.state.user.isLogin = true;
-            tokenUtil.setToken(data.token)
+            tokenUtil.setToken(data.token);
             this.state.user.userName = data.userName;
             this.state.user.password = data.password;
             this.state.user.permissions = data.permissions;
@@ -34,11 +34,13 @@ const store = {
     },
     actions: {
         login({commit}, data) {
-            api.login(data).then(res => {
-                commit('setUserInfo', res.data)
-            }).catch(e => {
-                console.log(e)
-            })
+            return new Promise((resolve, reject) => {
+                api.login(data).then(res => {
+                    commit('setUserInfo', res.data);
+                    this.dispatch('GenerateRoutes', {permissions: data.permissions, routes: config.asyncRouter});
+                    resolve();
+                })
+            });
         },
         // 实际生产实践到时候需要带上token去请求后端
         getUserInfo({commit}, _) {
@@ -47,6 +49,7 @@ const store = {
                     commit('setUserInfo', res.data);
                     resolve(res.data.permissions);
                 }).catch(e => {
+                    console.log(e);
                     reject(e);
                 })
             });
@@ -63,9 +66,7 @@ const store = {
             tokenUtil.removeToken();
             commit('setIsLogin', false);
             router.push({path: config.LOGIN_PAGE});
-            api.loginOut().catch(e =>{
-                console.log(e)
-            })
+            api.loginOut();
         }
     }
 

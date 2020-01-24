@@ -26,7 +26,6 @@ const store = {
                 commit('setPatientBaseList', res.data);
                 commit('setTableLoading', false);
             }).catch(e => {
-                console.log(e)
                 commit('setTableLoading', false);
             })
         },
