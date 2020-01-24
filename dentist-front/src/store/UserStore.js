@@ -12,6 +12,13 @@ const createRouter = () => new VueRouter({
     routes: config.constRouter
 });
 
+function clean(commit) {
+    tokenUtil.removeToken();
+    commit('setIsLogin', false);
+    router.matcher = createRouter().matcher;
+    router.replace({path: config.LOGIN_PAGE});
+}
+
 const store = {
     state: {
         userName: '',
@@ -74,13 +81,18 @@ const store = {
                 resolve(filterRoutes);
             })
         },
+        //正常的退出登陆
         loginOut({commit}, _) {
-            tokenUtil.removeToken();
-            commit('setIsLogin', false);
-            //清空动态添加的路由
-            router.matcher = createRouter().matcher;
-            router.replace({path: config.LOGIN_PAGE});
+            clean(commit);
             api.loginOut();
+        },
+        //失败的退出登陆
+        fedLoginOut({commit}, _) {
+            return new Promise((resolve, reject) => {
+                clean(commit);
+                resolve();
+            });
+
         }
     }
 };

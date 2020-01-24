@@ -36,9 +36,9 @@ router.beforeEach((to, from, next) => {
                     });
                 }).catch(e => {
                     console.log(e);
-                    // 失败就删除token跳转到登陆页面
-                    tokenUtl.removeToken();
-                    next({path: config.LOGIN_PAGE});
+                    store.dispatch('fedLoginOut').then(_ => {
+                        Message.error('登录状态失效, 请重新登录');
+                    });
                 })
             } else {
                 //有用户信息
