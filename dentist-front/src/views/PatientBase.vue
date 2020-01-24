@@ -194,26 +194,28 @@
                                 this.addPatientBase(this.entity)
                                     .then(_ => {
                                         this.getPatientBaseList(pageReq);
-                                        this.close();
                                         this.$Message.success("添加成功")
                                     })
                                     .catch(e => {
                                         console.log(e);
-                                        this.close();
                                         this.$Message.error("添加失败")
+                                    })
+                                    .finally(_ => {
+                                        this.close();
                                     });
                                 break;
                             case "update":
                                 this.updatePatientBase(this.entity)
                                     .then(_ => {
                                         this.getPatientBaseList(pageReq);
-                                        this.close();
                                         this.$Message.success("修改成功")
                                     })
                                     .catch(e => {
                                         console.log(e);
-                                        this.close();
                                         this.$Message.error("修改失败")
+                                    })
+                                    .finally(_ => {
+                                        this.close();
                                     });
                                 break;
                         }
