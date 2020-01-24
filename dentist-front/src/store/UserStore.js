@@ -1,8 +1,16 @@
 import api from '@/api/UserApi'
 import tokenUtil from '@/libs/tokenUtil'
 import permissionUtil from "@/libs/permissionUtil";
+import VueRouter from 'vue-router'
 import config from "@/config";
 import router from '@/router';
+
+const createRouter = () => new VueRouter({
+    linkActiveClass: 'active',
+    mode: 'history',
+    base: './',
+    routes: config.constRouter
+});
 
 const store = {
     state: {
@@ -47,7 +55,6 @@ const store = {
                 })
             });
         },
-        // 实际生产实践到时候需要带上token去请求后端
         getUserInfo({commit}, _) {
             return new Promise((resolve, reject) => {
                 api.getUserInfo().then(res => {
@@ -70,11 +77,12 @@ const store = {
         loginOut({commit}, _) {
             tokenUtil.removeToken();
             commit('setIsLogin', false);
-            router.push({path: config.LOGIN_PAGE});
+            //清空动态添加的路由
+            router.matcher = createRouter().matcher;
+            router.replace({path: config.LOGIN_PAGE});
             api.loginOut();
         }
     }
-
 };
 
 export default store
