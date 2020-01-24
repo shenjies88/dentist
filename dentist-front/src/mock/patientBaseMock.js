@@ -1,10 +1,10 @@
 let id = 1;
 let list = [{
     id,
-    name: '沈杰',
+    name: '阿三',
     sex: '男',
     age: 24,
-    phone: '18178324804',
+    phone: '18178324803',
     fixedPhone: '',
     contactAddress: '居住地址',
     note: '备注',
