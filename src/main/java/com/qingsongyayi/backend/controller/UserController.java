@@ -49,4 +49,10 @@ public class UserController {
         map.put("permissions", new ArrayList<>());
         return HttpResult.success(map);
     }
+
+    @ApiOperation("退出登陆")
+    @PostMapping("/logout")
+    public HttpResult logout() {
+        return HttpResult.success();
+    }
 }

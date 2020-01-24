@@ -31,8 +31,8 @@ router.beforeEach((to, from, next) => {
                 // 无用户信息，用户登陆过，但是关闭了浏览器，导致store里数据消失，
                 // 获取用户信息，获取成功就添加路由然后跳转
                 store.dispatch('getUserInfo').then(permissions => {
-                    store.dispatch('GenerateRoutes', {permissions, routes: config.asyncRouter}).then(routers => {
-                        router.addRoutes(routers);
+                    store.dispatch('GenerateRoutes', {permissions, routes: config.asyncRouter}).then(routes => {
+                        router.addRoutes(routes);
                         next({...to, replace: true});
                     });
                 }).catch(e => {

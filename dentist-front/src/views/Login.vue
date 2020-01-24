@@ -49,7 +49,8 @@
                     if (valid) {
                         this.login(this.formInline).then(_ => {
                             //TODO 需要等路由加载完毕再跳转
-                            this.$router.push({path: config.FIRST_PAGE}).catch(e => {
+                            this.$router.push({path: config.FIRST_PAGE, replace: true}).catch(e => {
+                                console.log(e)
                             });
                             this.$Message.success('登陆成功')
                         }).catch(e => {

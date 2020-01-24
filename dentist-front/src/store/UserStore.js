@@ -37,8 +37,13 @@ const store = {
             return new Promise((resolve, reject) => {
                 api.login(data).then(res => {
                     commit('setUserInfo', res.data);
-                    this.dispatch('GenerateRoutes', {permissions: data.permissions, routes: config.asyncRouter});
-                    resolve();
+                    this.dispatch('GenerateRoutes', {
+                        permissions: data.permissions,
+                        routes: config.asyncRouter
+                    }).then(routes => {
+                        router.addRoutes(routes);
+                        resolve();
+                    });
                 })
             });
         },
