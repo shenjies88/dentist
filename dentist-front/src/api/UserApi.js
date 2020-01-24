@@ -16,9 +16,17 @@ const getUserInfo = () => {
         url: config.preUrl + baseUrl + '/info',
         method: 'get'
     })
-}
+};
+
+const loginOut = () => {
+    return axios.request({
+        url: config.preUrl + baseUrl + '/logout',
+        method: 'post'
+    })
+};
 
 export default {
     login,
-    getUserInfo
+    getUserInfo,
+    loginOut
 }

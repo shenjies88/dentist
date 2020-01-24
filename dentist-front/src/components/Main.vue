@@ -64,12 +64,22 @@
             </Sider>
             <Layout>
                 <Header :style="{padding: 0}" class="layout-header-bar">
-                    <Menu :active-name="this.topMenuListData[0].name" mode="horizontal" theme="light"
+                    <Menu style="width: auto" :active-name="this.topMenuListData[0].name" mode="horizontal"
+                          theme="light"
                           @on-select="headerTopMenuSelect">
                         <MenuItem v-for="(item,index) in this.topMenuListData" :name="item.name" :key="index"
                                   :to="item.path">
                             {{item.meta.title}}
                         </MenuItem>
+                        <Dropdown style="float: right ; margin-right: 30px" @on-click="loginOut">
+                            <a href="javascript:void(0)">
+                                下拉菜单
+                                <Icon type="ios-arrow-down"></Icon>
+                            </a>
+                            <DropdownMenu slot="list">
+                                <DropdownItem name="login-out">退出登陆</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
                     </Menu>
                 </Header>
                 <Content :style="{margin: '20px', minHeight: '260px'}">
@@ -89,12 +99,15 @@
 </template>
 <script>
 
-    import {mapMutations, mapState} from "vuex";
+    import {mapActions, mapMutations, mapState} from "vuex";
 
     export default {
         methods: {
             ...mapMutations({
-                setSideMenuListData: 'setSideMenuListData'
+                setSideMenuListData: 'setSideMenuListData',
+            }),
+            ...mapActions({
+                loginOut: 'loginOut'
             }),
             headerTopMenuSelect: function (name) {
                 this.setSideMenuListData(this.topMenuListData.find(e => e.name === name).children);

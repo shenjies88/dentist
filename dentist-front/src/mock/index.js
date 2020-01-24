@@ -9,6 +9,7 @@ Mock.setup({
 // 登录相关和获取用户信息
 Mock.mock(/\/api\/user\/login/, 'post', userMock.login);
 Mock.mock(/\/api\/user\/info/, 'get', userMock.getUserInfo);
+Mock.mock(/\/api\/user\/logout/, 'post', userMock.loginOut);
 Mock.mock(/\/api\/patient\/base\/list/, 'post', patientBaseMock.getPatientBaseList);
 Mock.mock(/\/api\/patient\/base/, 'post', patientBaseMock.addPatientBase);
 Mock.mock(/\/api\/patient\/base/, 'delete', patientBaseMock.deletePatientBase);

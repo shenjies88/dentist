@@ -22,6 +22,13 @@ const userMock = {
                 token: '12345678901'
             }
         }
+    },
+    loginOut: function () {
+        return {
+            code: 0,
+            message: 'success',
+            data: null
+        }
     }
 };
 

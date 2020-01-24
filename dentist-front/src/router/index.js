@@ -43,17 +43,19 @@ router.beforeEach((to, from, next) => {
         } else {
             //判断是否有用户信息在store里
             //有用户信息
-            if (store.state.user.userName === '') {
+            if (!store.state.user.isLogin) {
                 // 无用户信息，用户登陆过，但是关闭了浏览器，导致store里数据消失，
                 // 获取用户信息，获取成功就添加路由然后跳转
-                store.dispatch('getUserInfo').then(data => {
-                    let permissions = data.permissions;
+                store.dispatch('getUserInfo').then(permissions => {
                     store.dispatch('GenerateRoutes', {permissions, routes: asyncRouter}).then(routers => {
                         router.addRoutes(routers);
                         next({...to, replace: true});
+                    }).catch(e => {
+                        console.log(e)
                     })
                 }).catch(e => {
                     // 失败就删除token跳转到登陆页面
+                    console.log(e)
                     tokenUtl.removeToken();
                     next({path: config.LOGIN_PAGE});
                 })

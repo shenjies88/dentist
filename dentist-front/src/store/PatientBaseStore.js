@@ -25,7 +25,8 @@ const store = {
             api.getPatientBaseList(param).then(res => {
                 commit('setPatientBaseList', res.data);
                 commit('setTableLoading', false);
-            }).catch(_ => {
+            }).catch(e => {
+                console.log(e)
                 commit('setTableLoading', false);
             })
         },
