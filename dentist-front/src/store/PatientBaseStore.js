@@ -7,7 +7,8 @@ const store = {
     },
     mutations: {
         setPatientBaseList(state, data) {
-            this.state.patientBase = {patientBaseList: data.list, count: data.count}
+            this.state.patientBase.patientBaseList = data.list;
+            this.state.patientBase.count = data.count;
         }
     },
     actions: {
@@ -15,15 +16,6 @@ const store = {
             api.getPatientBaseList(param).then(res => {
                 commit('setPatientBaseList', res.data);
             })
-        },
-        deletePatientBase(_, id) {
-            api.deletePatientBase([id])
-        },
-        addPatientBase(_, param) {
-            api.addPatientBase(param)
-        },
-        updatePatientBase(_, param) {
-            api.updatePatientBase(param, param.id)
         }
     }
 

@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import material from './PatientBaseStore'
 import user from './UserStore'
+import patientBase from './PatientBaseStore'
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
     modules: {
-        material,
-        user
+        user,
+        patientBase
     }
 });
 

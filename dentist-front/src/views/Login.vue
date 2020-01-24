@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import {mapActions, mapState} from "vuex";
+    import {mapActions} from "vuex";
     import config from '@/config'
 
     export default {
@@ -48,8 +48,10 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         this.login(this.formInline).then(_ => {
-                            this.$router.push(config.FIRST_PAGE)
+                            this.$router.push(config.FIRST_PAGE);
                             this.$Message.success('登陆成功')
+                        }).catch(e => {
+                            console.log(e)
                         })
                     }
                 })

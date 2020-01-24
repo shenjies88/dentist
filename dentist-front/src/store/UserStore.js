@@ -46,8 +46,8 @@ const store = {
         GenerateRoutes({commit}, {routes, permissions}) {
             return new Promise((resolve, reject) => {
                 let filterRoutes = permissionUtil.filterRoutes(routes, permissions);
-                commit('setRoutes', filterRoutes)
-                return filterRoutes;
+                commit('setRoutes', filterRoutes);
+                resolve(filterRoutes);
             })
         }
     }

@@ -54,8 +54,6 @@ router.beforeEach((to, from, next) => {
                     })
                 }).catch(e => {
                     // 失败就删除token跳转到登陆页面
-                    console.log(e);
-                    Message.error('登录状态失效, 请重新登录');
                     tokenUtl.removeToken();
                     next({path: config.LOGIN_PAGE});
                 })
