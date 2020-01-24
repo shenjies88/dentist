@@ -29,17 +29,21 @@ router.beforeEach((to, from, next) => {
             if (!store.state.user.isLogin) {
                 // 无用户信息，用户登陆过，但是关闭了浏览器，导致store里数据消失，
                 // 获取用户信息，获取成功就添加路由然后跳转
-                store.dispatch('getUserInfo').then(permissions => {
-                    store.dispatch('GenerateRoutes', {permissions, routes: config.asyncRouter}).then(routes => {
-                        router.addRoutes(routes);
-                        next({...to, replace: true});
-                    });
-                }).catch(e => {
-                    console.log(e);
-                    store.dispatch('fedLoginOut').then(_ => {
-                        Message.error('登录状态失效, 请重新登录');
-                    });
-                })
+                store.dispatch('getUserInfo')
+                    .then(permissions => {
+                        store.dispatch('GenerateRoutes', {permissions, routes: config.asyncRouter})
+                            .then(routes => {
+                                router.addRoutes(routes);
+                                next({...to, replace: true});
+                            });
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        store.dispatch('fedLoginOut')
+                            .then(_ => {
+                                Message.error('登录状态失效, 请重新登录');
+                            });
+                    })
             } else {
                 //有用户信息
                 //有权限就跳转

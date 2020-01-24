@@ -1,7 +1,8 @@
 <template>
-    <div style="margin-left: 37% ; margin-top: 5% ; width: 200px">
+    <div style="margin-left: 37% ; margin-top: 5% ; width: 200px ; text-align: center">
         <Card>
-            <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
+            登陆
+            <Form style="margin-top: 10px" ref="formInline" :model="formInline" :rules="ruleInline" inline>
                 <FormItem prop="userName">
                     <Input type="text" v-model="formInline.userName" placeholder="admin">
                         <Icon type="ios-person-outline" slot="prepend"></Icon>
@@ -47,12 +48,14 @@
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.login(this.formInline).then(_ => {
-                            this.$router.push({path: config.FIRST_PAGE, replace: true});
-                            this.$Message.success('登陆成功')
-                        }).catch(e => {
-                            console.log(e)
-                        })
+                        this.login(this.formInline)
+                            .then(_ => {
+                                this.$router.push({path: config.FIRST_PAGE, replace: true});
+                                this.$Message.success('登陆成功');
+                            })
+                            .catch(e => {
+                                console.log(e)
+                            })
                     }
                 })
             },

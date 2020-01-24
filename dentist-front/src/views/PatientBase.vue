@@ -172,13 +172,15 @@
                         this.$Modal.confirm({
                             title: '是否确定删除',
                             onOk: () => {
-                                this.deletePatientBase(row.id).then(_ => {
-                                    this.getPatientBaseList(pageReq);
-                                    this.$Message.success("删除成功")
-                                }).catch(e => {
-                                    console.log(e);
-                                    this.$Message.error("删除失败")
-                                })
+                                this.deletePatientBase(row.id)
+                                    .then(_ => {
+                                        this.getPatientBaseList(pageReq);
+                                        this.$Message.success("删除成功")
+                                    })
+                                    .catch(e => {
+                                        console.log(e);
+                                        this.$Message.error("删除失败")
+                                    })
                             }
                         })
                     }
@@ -189,26 +191,30 @@
                     if (valid) {
                         switch (this.operationType) {
                             case "add":
-                                this.addPatientBase(this.entity).then(_ => {
-                                    this.getPatientBaseList(pageReq);
-                                    this.close();
-                                    this.$Message.success("添加成功")
-                                }).catch(e => {
-                                    console.log(e);
-                                    this.close();
-                                    this.$Message.error("添加失败")
-                                });
+                                this.addPatientBase(this.entity)
+                                    .then(_ => {
+                                        this.getPatientBaseList(pageReq);
+                                        this.close();
+                                        this.$Message.success("添加成功")
+                                    })
+                                    .catch(e => {
+                                        console.log(e);
+                                        this.close();
+                                        this.$Message.error("添加失败")
+                                    });
                                 break;
                             case "update":
-                                this.updatePatientBase(this.entity).then(_ => {
-                                    this.getPatientBaseList(pageReq);
-                                    this.close();
-                                    this.$Message.success("修改成功")
-                                }).catch(e => {
-                                    console.log(e);
-                                    this.close();
-                                    this.$Message.error("修改失败")
-                                });
+                                this.updatePatientBase(this.entity)
+                                    .then(_ => {
+                                        this.getPatientBaseList(pageReq);
+                                        this.close();
+                                        this.$Message.success("修改成功")
+                                    })
+                                    .catch(e => {
+                                        console.log(e);
+                                        this.close();
+                                        this.$Message.error("修改失败")
+                                    });
                                 break;
                         }
                     }
