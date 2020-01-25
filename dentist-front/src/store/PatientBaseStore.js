@@ -30,7 +30,7 @@ const store = {
                     console.log(e)
                 })
                 .finally(_ => {
-                    commit('setSubmitDisabled', false);
+                    commit('setTableLoading', false);
                 })
         },
         deletePatientBase({commit}, id) {

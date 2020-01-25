@@ -48,34 +48,25 @@ const store = {
         }
     },
     actions: {
-        login({commit}, data) {
-            return new Promise((resolve, reject) => {
-                api.login(data)
-                    .then(res => {
-                        commit('setUserInfo', res.data);
-                        this.dispatch('GenerateRoutes', {
-                            permissions: data.permissions,
-                            routes: config.asyncRouter
-                        })
-                            .then(routes => {
-                                router.addRoutes(routes);
-                                resolve();
-                            })
-                    })
+        async login({commit}, data) {
+            let res = await api.login(data);
+            commit('setUserInfo', res.data);
+            let routes = await this.dispatch('GenerateRoutes', {
+                permissions: data.permissions,
+                routes: config.asyncRouter
             });
+            router.addRoutes(routes);
+            return Promise.resolve();
         },
-        getUserInfo({commit}, _) {
-            return new Promise((resolve, reject) => {
-                api.getUserInfo()
-                    .then(res => {
-                        commit('setUserInfo', res.data);
-                        resolve(res.data.permissions);
-                    })
-                    .catch(e => {
-                        console.log(e);
-                        reject(e);
-                    })
-            });
+        async getUserInfo({commit}, _) {
+            try {
+                let res = await api.getUserInfo();
+                commit('setUserInfo', res.data);
+                return Promise.resolve(res.data.permissions);
+            } catch (e) {
+                console.log(e);
+                return Promise.reject(e);
+            }
         },
         //过滤路由
         GenerateRoutes({commit}, {routes, permissions}) {
