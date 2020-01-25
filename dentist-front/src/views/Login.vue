@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-left: 37% ; margin-top: 5% ; width: 200px ; text-align: center">
+    <div style="display: flex ; justify-content: center ; text-align: center ; margin-top: 5%">
         <Card>
             登陆
             <Form style="margin-top: 10px" ref="formInline" :model="formInline" :rules="ruleInline" inline>
