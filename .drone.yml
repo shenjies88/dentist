@@ -1,9 +1,7 @@
 kind: pipeline
 type: docker
 name: build-deploy
-
 steps:
-
   - name: build
     image: maven:3-alpine
     commands:
@@ -13,11 +11,10 @@ steps:
         - master
       event:
         - push
-
   - name: build-front
   	image: node:latest
     commands:
-      - cd front-practice
+      - /bin/bash cd front-practice
       - yarn
       - yarn build
     when:
@@ -27,7 +24,6 @@ steps:
         - push
     depends_on:
       - build-backend
-
   - name: deploy
   	image: docker/compose
     commands:
