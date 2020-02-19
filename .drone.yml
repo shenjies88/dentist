@@ -27,7 +27,6 @@ steps:
     depends_on:
       - build-backend
 
-
   - name: deploy
   	image: docker/compose
     commands:
