@@ -2,15 +2,17 @@ kind: pipeline
 type: docker
 name: build-deploy
 steps:
-  - name: build
+
+  - name: build-backend
     image: maven:3-alpine
     commands:
-      - mvn -DskipTests clean package -Dmaven.repo.local=./.m2/repository
+      - mvn -DskipTests clean package
     when:
       branch:
         - master
       event:
         - push
+
   - name: build-front
   	image: node:latest
     commands:
@@ -24,6 +26,7 @@ steps:
         - push
     depends_on:
       - build-backend
+
   - name: deploy
   	image: docker/compose
     commands:
