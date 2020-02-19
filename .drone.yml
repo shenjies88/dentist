@@ -14,7 +14,7 @@ steps:
         - push
 
   - name: build-front
-  	image: node:latest
+    image: node:latest
     commands:
       - /bin/bash cd front-practice
       - yarn
