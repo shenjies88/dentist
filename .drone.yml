@@ -28,7 +28,7 @@ steps:
       - build-backend
 
   - name: deploy
-  	image: docker/compose
+    image: docker/compose
     commands:
       - docker-compose down
       - docker-compose build
