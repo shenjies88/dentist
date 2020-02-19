@@ -1,15 +1,13 @@
 kind: pipeline
-type: exec
+type: docker
 name: build-deploy
 
-platform:
-  os: linux
-  arch: amd64
-
 steps:
-  - name: build-backend
+
+  - name: build
+    image: maven:3-alpine
     commands:
-      - mvn clean package -DskipTest
+      - mvn -DskipTests clean package -Dmaven.repo.local=./.m2/repository
     when:
       branch:
         - master
@@ -17,6 +15,7 @@ steps:
         - push
 
   - name: build-front
+  	image: node:latest
     commands:
       - cd front-practice
       - yarn
@@ -30,6 +29,7 @@ steps:
       - build-backend
 
   - name: deploy
+  	image: docker/compose
     commands:
       - docker-compose down
       - docker-compose build
@@ -43,10 +43,3 @@ steps:
     depends_on:
       - build-backend
       - build-front
-
-
-
-
-
-
-
