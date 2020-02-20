@@ -62,8 +62,10 @@ steps:
   - name: docker-buid-push-mysql
     image: plugins/docker
     settings:
-      username: shenjies88
-      password: zhuzhu1236540
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
       repo: registry.cn-hangzhou.aliyuncs.com/shenjies88/${MYSQL_NAME}
       auto_tag: true
       dockerfile: ./dockerfile-mysql
