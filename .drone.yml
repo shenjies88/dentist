@@ -6,6 +6,7 @@ environment:
   BACKEND_NAME: dentist-backend
   FRONT_NAME: dentist-front
   MYSQL_NAME: dentist-mysql
+  REPO: registry.cn-hangzhou.aliyuncs.com
 
 steps:
   - name: restore-cache
@@ -62,6 +63,10 @@ steps:
     image: docker/compose
     commands:
       - docker-compose build
+      - docker image prune -y
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
     depends_on:
       - build-front
 
