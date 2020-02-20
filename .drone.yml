@@ -77,7 +77,7 @@ steps:
       event:
         - push
 
-  - name:
+  - name: deploy-rancher
     image: peloton/drone-rancher
     url: http://https://192.168.56.20/p/c-257p4:p-9nj7t/
     access_key: ${RANCHER_ACCESS_KEY}
