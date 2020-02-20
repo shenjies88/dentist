@@ -59,7 +59,7 @@ steps:
   #    depends_on:
   #      - build-front
 
-  - name: docker-buid-push-$${MYSQL_NAME}
+  - name: docker-buid-push-${MYSQL_NAME}
     image: plugins/docker
     settings:
       username:
@@ -69,13 +69,13 @@ steps:
       repo: $${REPO}/$${NAMESPACE}
       auto_tag: true
       dockerfile: ./dockerfile-mysql
-      when:
-        branch:
-          - master
-        event:
-          - push
-      depends_on:
-        - build-backend
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - build-backend
 #  rancher:
 #    image: peloton/drone-rancher
 #    url: http://https://192.168.56.20/p/c-257p4:p-9nj7t/
