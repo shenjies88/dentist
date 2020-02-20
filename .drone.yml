@@ -2,7 +2,6 @@ kind: pipeline
 name: build-deploy
 
 environment:
-  DOCKER_TAG: $${DRONE_BUILD_NUMBER}
   BACKEND_NAME: dentist-backend
   FRONT_NAME: dentist-front
   MYSQL_NAME: dentist-mysql
@@ -69,7 +68,7 @@ steps:
       DOCKER_USERNAME:
         from_secret: DOCKER_USERNAME
     commands:
-      - sh docker_build.sh $${DOCKER_TAG} $${BACKEND_NAME} $${FRONT_NAME} $${MYSQL_NAME} $${REPO} $${NAMESPACE}
+      - sh docker_build.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${MYSQL_NAME} $${REPO} $${NAMESPACE}
     volumes:
       - name: docker
         path: /var/run/docker.sock
