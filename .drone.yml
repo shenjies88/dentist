@@ -11,6 +11,7 @@ steps:
       restore: true
       mount:
         - ./.m2
+        - ./node_modules
 
   - name: build-backend
     image: maven:3-alpine
@@ -45,6 +46,7 @@ steps:
       rebuild: true
       mount:
         - ./.m2
+        - ./node_modules
     depends_on:
       - build-front
 
