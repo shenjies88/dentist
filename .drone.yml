@@ -82,7 +82,7 @@ steps:
   - name: deploy-rancher
     image: peloton/drone-rancher
     settings:
-      url: http://192.168.56.20
+      url: https://192.168.56.20
       access_key: token-pgvdb
       secret_key: l7w9rks62dqkmmbqdf6f8kzm6rw2bhd4xcffsd6jgf6b69xcq8cltl
       service: huh/service1
