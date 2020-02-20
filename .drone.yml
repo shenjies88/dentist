@@ -1,6 +1,12 @@
 kind: pipeline
 name: build-deploy
 
+environment:
+  DOCKER_TAG: $${DRONE_BUILD_NUMBER}
+  BACKEND_NAME: dentist-backend
+  FRONT_NAME: dentist-front
+  MYSQL_NAME: dentist-mysql
+
 steps:
   - name: restore-cache
     image: drillster/drone-volume-cache
@@ -49,6 +55,13 @@ steps:
       mount:
         - ./.m2
         - front-practice/node_modules
+    depends_on:
+      - build-front
+
+  - name: docker-build
+    image: docker/compose
+    commands:
+      - docker-compose build
     depends_on:
       - build-front
 

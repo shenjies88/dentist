@@ -2,8 +2,8 @@ version: '3'
 services:
 
   dentist-mysql:
-    image: dentist-mysql:v1
-    container_name: dentist-mysql
+    image: ${MYSQL_NAME}:${DOCKER_TAG}
+    container_name: ${MYSQL_NAME}
     build:
       context: .
       dockerfile: dockerfile-mysql
@@ -19,8 +19,8 @@ services:
       - dentist-net
 
   dentist-backend:
-    image: dentist-backend:v1
-    container_name: dentist-backend
+    image: ${BACKEND_NAME}:${DOCKER_TAG}
+    container_name: ${BACKEND_NAME}
     build:
       context: .
       dockerfile: dockerfile-backend
@@ -32,8 +32,8 @@ services:
       - dentist-net
 
   dentist-front:
-    image: dentist-front:v1
-    container_name: dentist-front
+    image: ${FRONT_NAME}:${DOCKER_TAG}
+    container_name: ${FRONT_NAME}
     build:
       context: .
       dockerfile: dockerfile-front
