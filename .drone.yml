@@ -71,6 +71,8 @@ steps:
       - docker login -u $${PLUGIN_DOCKER_USERNAME} -p $${PLUGIN_DOCKER_PASSWORD} $${REPO}
       - docker build --rm=true -f dockerfile-mysql -t $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER} .
       - docker push $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER}
+      - docker rmi $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER}
+      - docker system prune -f
     volumes:
       - name: docker
         path: /var/run/docker.sock
