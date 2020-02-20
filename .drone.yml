@@ -69,10 +69,10 @@ steps:
     commands:
       - docker -v
       - nohup dockerd &
-      - docker login -u $${PLUGIN_DOCKER_USERNAME} -p $${PLUGIN_DOCKER_PASSWORD} ${REPO}
-      - docker build --rm=true -f dockerfile-mysql -t ${REPO}/${NAMESPACE}/${MYSQL_NAME}:${DRONE_BUILD_NUMBER} .
-      - docker tag ${MYSQL_NAME} ${REPO}/${NAMESPACE}/${MYSQL_NAME}:${DRONE_BUILD_NUMBER}
-      - docker push ${REPO}/${NAMESPACE}/${MYSQL_NAME}:${DRONE_BUILD_NUMBER};
+      - docker login -u $${PLUGIN_DOCKER_USERNAME} -p $${PLUGIN_DOCKER_PASSWORD} $${REPO}
+      - docker build --rm=true -f dockerfile-mysql -t $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER} .
+      - docker tag $${MYSQL_NAME} $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER}
+      - docker push $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER}
     volumes:
       - name: docker
         path: /var/run/docker.sock
