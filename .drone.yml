@@ -60,7 +60,7 @@ steps:
       - build-front
 
   - name: docker-build
-    image: docker/compose
+    image: plugins/docker
     commands:
       - docker-compose build
       - docker image prune -y
