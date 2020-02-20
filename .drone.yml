@@ -64,12 +64,9 @@ steps:
     settings:
       username: shenjies88
       password: zhuzhu1236540
-      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88
+      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88/${MYSQL_NAME}
       auto_tag: true
       dockerfile: ./dockerfile-mysql
-    volumes:
-      - name: docker
-        path: /var/run/docker.sock
     when:
       branch:
         - master
@@ -101,9 +98,6 @@ volumes:
   - name: cache
     host:
       path: /tmp/cache
-  - name: docker
-    host:
-      path: /var/run/docker.sock
 
 
       
