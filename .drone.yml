@@ -7,6 +7,7 @@ environment:
   MYSQL_NAME: dentist-mysql
   REPO: registry.cn-hangzhou.aliyuncs.com
   NAMESPACE: shenjies88
+  TAG: $${DRONE_BUILD_NUMBER}
 
 steps:
   - name: restore-cache
@@ -70,9 +71,9 @@ steps:
       - docker -v
       - nohup dockerd &
       - docker login -u $${PLUGIN_DOCKER_USERNAME} -p $${PLUGIN_DOCKER_PASSWORD} $${REPO}
-      - docker build --rm=true -f dockerfile-mysql -t $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER} .
-      - docker tag $${MYSQL_NAME} $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER}
-      - docker push $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER}
+      - docker build --rm=true -f dockerfile-mysql -t $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${TAG} .
+      - docker tag $${MYSQL_NAME} $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${TAG}
+      - docker push $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${TAG}
     volumes:
       - name: docker
         path: /var/run/docker.sock
