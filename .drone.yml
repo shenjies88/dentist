@@ -75,6 +75,9 @@ steps:
       - docker build --rm=true -f dockerfile-mysql -t $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${TAG} .
       - docker tag $${MYSQL_NAME} $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${TAG}
       - docker push $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${TAG}
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
     when:
       branch:
         - master
@@ -104,6 +107,9 @@ volumes:
   - name: cache
     host:
       path: /tmp/cache
+  - name: docker
+    host:
+      path: /var/run/docker.sock
 
 
       
