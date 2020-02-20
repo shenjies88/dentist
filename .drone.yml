@@ -26,6 +26,7 @@ steps:
     image: node:latest
     commands:
       - cd front-practice
+      - yarn
       - yarn build
     when:
       branch:
