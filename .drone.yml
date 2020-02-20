@@ -59,7 +59,7 @@ steps:
   #    depends_on:
   #      - build-front
 
-  - name: docker-buid-push-${MYSQL_NAME}
+  - name: docker-buid-push-mysql
     image: plugins/docker
     settings:
       username:
@@ -69,6 +69,9 @@ steps:
       repo: $${REPO}/$${NAMESPACE}
       auto_tag: true
       dockerfile: ./dockerfile-mysql
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
     when:
       branch:
         - master
@@ -99,6 +102,9 @@ volumes:
   - name: cache
     host:
       path: /tmp/cache
+  - name: docker
+    host:
+      path: /var/run/docker.sock
 
 
       
