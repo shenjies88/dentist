@@ -85,11 +85,9 @@ steps:
       url: https://192.168.56.20
       access_key: token-pgvdb
       secret_key: l7w9rks62dqkmmbqdf6f8kzm6rw2bhd4xcffsd6jgf6b69xcq8cltl
-      service: huh/service1
+      service: $${MYSQL_NAME}
       docker_image: $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER}
-      start_first: true
       confirm: true
-      timeout: 180
     when:
       branch:
         - master
