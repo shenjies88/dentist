@@ -16,7 +16,7 @@ steps:
   - name: build-front
     image: node:latest
     commands:
-      - /bin/bash cd front-practice
+      - cd front-practice
       - yarn
       - yarn build
     when:
