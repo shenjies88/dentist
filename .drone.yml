@@ -16,7 +16,7 @@ steps:
   - name: build-backend
     image: maven:3-alpine
     commands:
-      - mvn -DskipTests clean package
+      - mvn -DskipTests clean package -Dmaven.repo.local=./.m2/repository
     when:
       branch:
         - master
