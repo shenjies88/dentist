@@ -18,3 +18,4 @@ docker rmi ${repo}/${namespace}/${mysql_name}:${version};
 #docker build --rm=true -f dockerfile-backend -t ${repo}/${namespace}/${front_name}:${version} .;
 #docker push ${repo}/${namespace}/${front_name}:${version};
 #docker rmi ${repo}/${namespace}/${front_name}:${version};
+docker system prune -f
