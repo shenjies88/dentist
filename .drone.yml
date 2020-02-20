@@ -62,11 +62,9 @@ steps:
   - name: docker-buid-push-mysql
     image: plugins/docker
     settings:
-      username:
-        from_secret: DOCKER_PASSWORD
-      password:
-        from_secret: DOCKER_USERNAME
-      repo: $${REPO}/$${NAMESPACE}
+      username: shenjies88
+      password: zhuzhu1236540
+      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88
       auto_tag: true
       dockerfile: ./dockerfile-mysql
     volumes:
@@ -79,6 +77,7 @@ steps:
         - push
     depends_on:
       - build-backend
+
 #  rancher:
 #    image: peloton/drone-rancher
 #    url: http://https://192.168.56.20/p/c-257p4:p-9nj7t/
