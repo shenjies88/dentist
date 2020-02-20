@@ -44,6 +44,8 @@ steps:
       rebuild: true
       mount:
         - ./.m2
+    depends_on:
+      - build-front
 
   - name: deploy
     image: docker/compose
