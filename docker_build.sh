@@ -5,7 +5,7 @@ FRONT_NAME=$3
 MYSQL_NAME=$4
 REPO=$5
 NAMESPACE=$6
-docker login -u "${PLUGIN_DOCKER_USERNAME}" -p "${PLUGIN_DOCKER_PASSWORD}" ${REPO};
+winpty docker login -u "${PLUGIN_DOCKER_USERNAME}" -p "${PLUGIN_DOCKER_PASSWORD}" ${REPO};
 # mysql
 docker build --rm=true -f dockerfile-mysql -t ${REPO}/${6NAMESPACE}/${MYSQL_NAME}:${DOCKER_TAG};
 docker tag ${MYSQL_NAME} ${REPO}/${6NAMESPACE}/${MYSQL_NAME}:${DOCKER_TAG};
