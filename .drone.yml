@@ -32,32 +32,32 @@ steps:
     depends_on:
       - restore-cache
 
-  - name: build-front
-    image: node:latest
-    commands:
-      - cd front-practice
-      - yarn
-      - yarn build
-    when:
-      branch:
-        - master
-      event:
-        - push
-    depends_on:
-      - build-backend
-
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    volumes:
-      - name: cache
-        path: /cache
-    settings:
-      rebuild: true
-      mount:
-        - ./.m2
-        - front-practice/node_modules
-    depends_on:
-      - build-front
+  #  - name: build-front
+  #    image: node:latest
+  #    commands:
+  #      - cd front-practice
+  #      - yarn
+  #      - yarn build
+  #    when:
+  #      branch:
+  #        - master
+  #      event:
+  #        - push
+  #    depends_on:
+  #      - build-backend
+  #
+  #  - name: rebuild-cache
+  #    image: drillster/drone-volume-cache
+  #    volumes:
+  #      - name: cache
+  #        path: /cache
+  #    settings:
+  #      rebuild: true
+  #      mount:
+  #        - ./.m2
+  #        - front-practice/node_modules
+  #    depends_on:
+  #      - build-front
 
   - name: docker-build
     image: plugins/docker
@@ -68,7 +68,7 @@ steps:
       - name: docker
         path: /var/run/docker.sock
     depends_on:
-      - build-front
+      - build-backend
 
 volumes:
   - name: cache
