@@ -46,7 +46,7 @@ steps:
       rebuild: true
       mount:
         - ./.m2
-        - ./node_modules
+        - front-practice/node_modules
     depends_on:
       - build-front
 
