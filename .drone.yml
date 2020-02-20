@@ -22,6 +22,8 @@ steps:
         - master
       event:
         - push
+    depends_on:
+      - restore-cache
 
   - name: build-front
     image: node:latest
