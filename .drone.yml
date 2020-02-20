@@ -76,6 +76,8 @@ steps:
         - master
       event:
         - push
+    depends_on:
+      - build-backend
 
   - name: deploy-rancher
     image: quay.io/honestbee/drone-kubernetes
@@ -86,6 +88,8 @@ steps:
     repo: $${REPO}/$${NAMESPACE}
     container: $${MYSQL_NAME}
     tag: $${DRONE_BUILD_NUMBER}
+    depends_on:
+      - docker-buid-push
 
 
 volumes:
