@@ -66,16 +66,14 @@ steps:
         from_secret: DOCKER_PASSWORD
       DOCKER_USERNAME:
         from_secret: DOCKER_USERNAME
-    environment:
-      TAG: ${DRONE_BUILD_NUMBER}
     commands:
       - echo "${TAG}"
       - docker -v
       - nohup dockerd &
       - docker login -u $${PLUGIN_DOCKER_USERNAME} -p $${PLUGIN_DOCKER_PASSWORD} $${REPO}
-      - docker build --rm=true -f dockerfile-mysql -t $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${TAG} .
-      - docker tag $${MYSQL_NAME} $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${TAG}
-      - docker push $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${TAG}
+      - docker build --rm=true -f dockerfile-mysql -t $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER} .
+      - docker tag $${REPO}/$${NAMESPACE}/$${MYSQL_NAME} $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER}
+      - docker push $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER}
     volumes:
       - name: docker
         path: /var/run/docker.sock
