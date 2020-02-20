@@ -48,22 +48,6 @@ steps:
     depends_on:
       - build-front
 
-  - name: deploy
-    image: docker/compose
-    commands:
-      - docker-compose down
-      - docker-compose build
-      - docker image prune -f
-      - docker-compose up -d
-    when:
-      branch:
-        - master
-      event:
-        - push
-    depends_on:
-      - build-backend
-      - build-front
-
 volumes:
   - name: cache
     host:
