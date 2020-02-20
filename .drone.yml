@@ -69,6 +69,7 @@ steps:
     environment:
       TAG: ${DRONE_BUILD_NUMBER}
     commands:
+      - echo "$${TAG}"
       - docker -v
       - nohup dockerd &
       - docker login -u $${PLUGIN_DOCKER_USERNAME} -p $${PLUGIN_DOCKER_PASSWORD} $${REPO}
