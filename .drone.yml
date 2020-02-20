@@ -86,7 +86,7 @@ steps:
       kubernetes_token: token-d7vx8:42rmc8b4msdz797gw8m29zl2kd69j9qlcb2rdjjd8x2w4ggdmlhz9n
       namespace: default
       deployment: dentist-mysql
-      repo: $${REPO}/$${NAMESPACE}
+      repo: $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}
       container: $${MYSQL_NAME}
       tag: $${DRONE_BUILD_NUMBER}
     when:
