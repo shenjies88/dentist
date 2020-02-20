@@ -7,7 +7,6 @@ environment:
   MYSQL_NAME: dentist-mysql
   REPO: registry.cn-hangzhou.aliyuncs.com
   NAMESPACE: shenjies88
-  TAG: $${DRONE_BUILD_NUMBER}
 
 steps:
   - name: restore-cache
@@ -67,6 +66,8 @@ steps:
         from_secret: DOCKER_PASSWORD
       DOCKER_USERNAME:
         from_secret: DOCKER_USERNAME
+    environment:
+      TAG: $${DRONE_BUILD_NUMBER}
     commands:
       - docker -v
       - nohup dockerd &
