@@ -60,10 +60,9 @@ steps:
   #      - build-front
 
   - name: docker-build
-    image: plugins/docker
     commands:
+      - sh docker_build
       - docker-compose build
-      - docker image prune -y
     volumes:
       - name: docker
         path: /var/run/docker.sock
