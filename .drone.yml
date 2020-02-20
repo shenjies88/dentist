@@ -1,7 +1,7 @@
 kind: pipeline
 name: build-deploy
+
 steps:
-  -
   - name: restore-cache
     image: drillster/drone-volume-cache
     volumes:
