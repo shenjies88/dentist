@@ -77,6 +77,26 @@ steps:
       event:
         - push
 
+  - name: deploy-rancher
+    image: peloton/drone-rancher
+    url: http://192.168.56.20/c/c-257p4
+    access_key: ${RANCHER_ACCESS_KEY}
+    secret_key: ${RANCHER_SECRET_KEY}
+    service: rancher_stack/rancher_service
+    docker_image: $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}:$${DRONE_BUILD_NUMBER}
+    batch_size: 1
+    start_first: true
+    timeout: 600
+    confirm: true
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - docker-build-push
+
+
 volumes:
   - name: cache
     host:
