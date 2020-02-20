@@ -11,7 +11,7 @@ steps:
       restore: true
       mount:
         - ./.m2
-        - ./node_modules
+        - front-practice/node_modules
 
   - name: build-backend
     image: maven:3-alpine
