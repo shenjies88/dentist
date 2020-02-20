@@ -88,7 +88,7 @@ steps:
       deployment: dentist-mysql
       repo: registry.cn-hangzhou.aliyuncs.com/shenjies88
       container: dentist-mysql
-      tag: 86
+      tag: 87
     when:
       branch:
         - master
