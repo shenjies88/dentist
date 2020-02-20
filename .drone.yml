@@ -62,13 +62,20 @@ steps:
   - name: docker-buid-push-mysql
     image: plugins/docker
     settings:
-      username:
-        from_secret: DOCKER_USERNAME
-      password:
+      DOCKER_PASSWORD:
         from_secret: DOCKER_PASSWORD
-      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88/${MYSQL_NAME}
-      auto_tag: true
-      dockerfile: ./dockerfile-mysql
+      DOCKER_USERNAME:
+        from_secret: DOCKER_USERNAME
+    commands:
+      - docker -v
+      - nohup dockerd &
+      - docker login -u ${PLUGIN_DOCKER_USERNAME} -p ${PLUGIN_DOCKER_PASSWORD} ${REPO}
+      - docker build --rm=true -f dockerfile-mysql -t ${REPO}/${NAMESPACE}/${MYSQL_NAME}:${DRONE_BUILD_NUMBER} .
+      - docker tag ${MYSQL_NAME} ${REPO}/${NAMESPACE}/${MYSQL_NAME}:${DRONE_BUILD_NUMBER}
+      - docker push ${REPO}/${NAMESPACE}/${MYSQL_NAME}:${DRONE_BUILD_NUMBER};
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
     when:
       branch:
         - master
@@ -98,6 +105,9 @@ volumes:
   - name: cache
     host:
       path: /tmp/cache
+  - name: docker
+    host:
+      path: /var/run/docker.sock
 
 
       
