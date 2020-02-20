@@ -72,8 +72,6 @@ steps:
         - master
       event:
         - push
-    depends_on:
-      - build-backend
 
 #  rancher:
 #    image: peloton/drone-rancher
