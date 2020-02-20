@@ -85,10 +85,10 @@ steps:
       kubernetes_server: https://192.168.56.20
       kubernetes_token: kubeconfig-user-pxpbb.c-257p4:g2mdjbcdvggw28qdl6gghv6qhxv2lqs6c4xtd2jx7mnnd4zn59gj7r
       namespace: default
-      deployment: $${MYSQL_NAME}
-      repo: $${REPO}/$${NAMESPACE}
-      container: $${MYSQL_NAME}
-      tag: $${DRONE_BUILD_NUMBER}
+      deployment: dentist-mysql
+      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88
+      container: dentist-mysql
+      tag: 85
     when:
       branch:
         - master
