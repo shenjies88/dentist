@@ -89,10 +89,6 @@ steps:
       repo: $${REPO}/$${NAMESPACE}
       container: $${MYSQL_NAME}
       tag: $${DRONE_BUILD_NUMBER}
-      username:
-        from_secret: DOCKER_PASSWORD
-      password:
-        from_secret: DOCKER_USERNAME
     when:
       branch:
         - master
