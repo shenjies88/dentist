@@ -81,16 +81,15 @@ steps:
 
   - name: deploy-rancher
     image: quay.io/honestbee/drone-kubernetes
-    kubernetes_server: http://192.168.56.20/c/c-257p4
+    kubernetes_server: http://192.168.56.20
     kubernetes_token: kubeconfig-user-pxpbb.c-257p4:g2mdjbcdvggw28qdl6gghv6qhxv2lqs6c4xtd2jx7mnnd4zn59gj7r
     namespace: default
-    deployment: my-deployment
+    deployment: $${MYSQL_NAME}
     repo: $${REPO}/$${NAMESPACE}
     container: $${MYSQL_NAME}
     tag: $${DRONE_BUILD_NUMBER}
     depends_on:
       - docker-buid-push
-
 
 volumes:
   - name: cache
