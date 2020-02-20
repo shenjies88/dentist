@@ -7,6 +7,7 @@ environment:
   FRONT_NAME: dentist-front
   MYSQL_NAME: dentist-mysql
   REPO: registry.cn-hangzhou.aliyuncs.com
+  NAMESPACE: shenjies88
 
 steps:
   - name: restore-cache
@@ -59,10 +60,16 @@ steps:
   #    depends_on:
   #      - build-front
 
-  - name: docker-build
+  - name: docker-build-push
+    image: plugins/docker
+    privileged: true
+      settings:
+        DOCKER_PASSWORD:
+          from_secret: DOCKER_PASSWORD
+        DOCKER_USERNAME:
+          from_secret: DOCKER_USERNAME
     commands:
-      - sh docker_build
-      - docker-compose build
+      - sh docker_build.sh $${DOCKER_TAG} $${BACKEND_NAME} $${FRONT_NAME} $${MYSQL_NAME} $${REPO} $${NAMESPACE}
     volumes:
       - name: docker
         path: /var/run/docker.sock
