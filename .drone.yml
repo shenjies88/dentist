@@ -80,10 +80,10 @@ steps:
       - build-backend
 
   - name: deploy-rancher
-    image: quay.io/honestbee/drone-kubernetes
+    image: registry.cn-hangzhou.aliyuncs.com/lm93129/drone-k8s-update
     settings:
       kubernetes_server: https://192.168.56.20/v3
-      kubernetes_token: token-t8mr9:znkwfrhdm64mhprgsnmxjs25mzrm6pv92npg7f2d5b2vrrwtxjrf4m
+      kubernetes_token: token-flpqg:mxkpxvkdk25k6mx85bcn2gz9c2wn4h5n7r284p5s5bvd8sbvj222qq
       namespace: default
       deployment: $${MYSQL_NAME}
       repo: $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}
