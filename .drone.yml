@@ -83,7 +83,7 @@ steps:
     image: registry.cn-hangzhou.aliyuncs.com/lm93129/drone-k8s-update
     settings:
       kubernetes_server: https://192.168.56.20/v3
-      kubernetes_token: token-twzb9:hv5kfc7p9s8klwk6s4p6jjcskgtd59f8kzp557qmq8qpd5lj5l49lw
+      kubernetes_token: token-twzb9
       namespace: default
       deployment: $${MYSQL_NAME}
       repo: $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}
