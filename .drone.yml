@@ -58,23 +58,23 @@ steps:
   #    depends_on:
   #      - build-backend
 
-  - name: docker-buid-push
-    image: plugins/docker
-    settings:
-      DOCKER_PASSWORD:
-        from_secret: DOCKER_PASSWORD
-      DOCKER_USERNAME:
-        from_secret: DOCKER_USERNAME
-    commands:
-      - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${MYSQL_NAME} $${REPO} $${NAMESPACE}
-    volumes:
-      - name: docker
-        path: /var/run/docker.sock
-    when:
-      branch:
-        - master
-      event:
-        - push
+  #  - name: docker-buid-push
+  #    image: plugins/docker
+  #    settings:
+  #      DOCKER_PASSWORD:
+  #        from_secret: DOCKER_PASSWORD
+  #      DOCKER_USERNAME:
+  #        from_secret: DOCKER_USERNAME
+  #    commands:
+  #      - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${MYSQL_NAME} $${REPO} $${NAMESPACE}
+  #    volumes:
+  #      - name: docker
+  #        path: /var/run/docker.sock
+  #    when:
+  #      branch:
+  #        - master
+  #      event:
+  #        - push
   #    depends_on:
   #      - build-backend
 
@@ -88,13 +88,15 @@ steps:
       repo: $${REPO}/$${NAMESPACE}
       container: $${MYSQL_NAME}
       tag: 109
+    commands:
+      - kubectl get deployments
     when:
       branch:
         - master
       event:
         - push
-    depends_on:
-      - docker-buid-push
+#    depends_on:
+#      - docker-buid-push
 
 
 volumes:
