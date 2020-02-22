@@ -9,16 +9,16 @@ environment:
   NAMESPACE: shenjies88
 
 steps:
-  - name: restore-cache
-    image: drillster/drone-volume-cache
-    volumes:
-      - name: cache
-        path: /cache
-    settings:
-      restore: true
-      mount:
-        - ./.m2
-        - front-practice/node_modules
+#  - name: restore-cache
+  #    image: drillster/drone-volume-cache
+  #    volumes:
+  #      - name: cache
+  #        path: /cache
+  #    settings:
+  #      restore: true
+  #      mount:
+  #        - ./.m2
+  #        - front-practice/node_modules
 
   #  - name: build-backend
   #    image: maven:3.6.3-jdk-8
@@ -75,8 +75,8 @@ steps:
         - master
       event:
         - push
-    depends_on:
-      - build-backend
+  #    depends_on:
+  #      - build-backend
 
   - name: deploy-rancher
     image: registry.cn-hangzhou.aliyuncs.com/lm93129/drone-k8s-update
