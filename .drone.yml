@@ -90,8 +90,6 @@ steps:
       repo: $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}
       container: $${MYSQL_NAME}
       tag: $${DRONE_BUILD_NUMBER}
-    commands:
-      - kubectl api-versions
     when:
       branch:
         - master
