@@ -32,52 +32,73 @@ steps:
     depends_on:
       - restore-cache
 
-#  #  - name: build-front
-#  #    image: node:latest
-#  #    commands:
-#  #      - cd front-practice
-#  #      - yarn
-#  #      - yarn build
-#  #    when:
-#  #      branch:
-#  #        - master
-#  #      event:
-#  #        - push
-#  #    depends_on:
-#  #      - build-backend
-#  #
-#  - name: rebuild-cache
-#    image: drillster/drone-volume-cache
-#    volumes:
-#      - name: cache
-#        path: /cache
-#    settings:
-#      rebuild: true
-#      mount:
-#        - ./.m2
-#        - front-practice/node_modules
-#    depends_on:
-#      - build-front
-#
-#  - name: docker-buid-push
-#    image: plugins/docker
-#    settings:
-#      DOCKER_PASSWORD:
-#        from_secret: DOCKER_PASSWORD
-#      DOCKER_USERNAME:
-#        from_secret: DOCKER_USERNAME
-#    commands:
-#      - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${MYSQL_NAME} $${REPO} $${NAMESPACE}
-#    volumes:
-#      - name: docker
-#        path: /var/run/docker.sock
-#    when:
-#      branch:
-#        - master
-#      event:
-#        - push
-#    depends_on:
-#      - build-backend
+  #  - name: build-front
+  #    image: node:latest
+  #    commands:
+  #      - cd front-practice
+  #      - yarn
+  #      - yarn build
+  #    when:
+  #      branch:
+  #        - master
+  #      event:
+  #        - push
+  #    depends_on:
+  #      - build-backend
+  #
+
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      rebuild: true
+      mount:
+        - ./.m2
+        - front-practice/node_modules
+    depends_on:
+      - build-front
+
+  - name: docker-buid-push
+    image: plugins/docker
+    settings:
+      DOCKER_PASSWORD:
+        from_secret: DOCKER_PASSWORD
+      DOCKER_USERNAME:
+        from_secret: DOCKER_USERNAME
+    commands:
+      - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${MYSQL_NAME} $${REPO} $${NAMESPACE}
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - build-backend
+
+  - name: deploy-rancher
+    image: registry.cn-hangzhou.aliyuncs.com/lm93129/drone-k8s-update
+    settings:
+      kubernetes_server: https://192.168.56.20/v3
+      kubernetes_token: eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkZWZhdWx0LXRva2VuLTd4d2tzIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImRlZmF1bHQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiIyMWQ5NGNhNi01NTE0LTExZWEtYTZiOC0wODAwMjc2OGE5N2YiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06ZGVmYXVsdCJ9.QEjj8bWUfBgbnoirrLa3-pPo14si9PRTl5lC8lEqUabUDrc6ZdvIGe8nl2N0avXLD799vAn0DZYTni0iOTVppJGLWXhRKpkT5YMrbFQdN-y2pnqgh0HkBgR474C9afIZVGHKmR0bxu9m1aL9krFKa_ib8f6vd7loK7zjT0iUmNRK9GCW5serdWQUMpcSIWkj5oPgx8kDh1VKXxZrS2nQKiEt_5so06QjonVx1AQGl74yVleecb502v1MCw45_bItuTlkfjYI1O7sdH7ZeaizCn_K4vKwuahtNI_4o6dHM2W8MyYh_aKVz8hKNIJgG-BU7VxL-UvK2DcusQKyuoiJ8w
+      namespace: default
+      deployment: $${MYSQL_NAME}
+      repo: $${REPO}/$${NAMESPACE}/$${MYSQL_NAME}
+      container: $${MYSQL_NAME}
+      tag: $${DRONE_BUILD_NUMBER}
+    commands:
+      - kubectl api-versions
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - docker-buid-push
 
 volumes:
   - name: cache
