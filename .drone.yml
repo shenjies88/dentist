@@ -77,31 +77,31 @@ steps:
   #        - push
   #    depends_on:
   #      - build-backend
-  - name: rancher
-    image: peloton/drone-rancher
+  #  - name: rancher
+  #    image: peloton/drone-rancher
+  #    settings:
+  #      url: https://192.168.56.20:443
+  #      access_key: token-f2kcd
+  #      secret_key: vhbc2ccchgzbfdb4m9zc7zrbn6mrb284brxstfqnktfbw7j74p5c47
+  #      service: huh/service
+  #      docker_image: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-mysql:109
+  #      confirm: true
+  #      timeout: 180
+  - name: deploy-rancher
+    image: quay.io/honestbee/drone-kubernetes
     settings:
-      url: https://192.168.56.20:443
-      access_key: token-f2kcd
-      secret_key: vhbc2ccchgzbfdb4m9zc7zrbn6mrb284brxstfqnktfbw7j74p5c47
-      service: huh/service
-      docker_image: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-mysql:109
-      confirm: true
-      timeout: 180
-#  - name: deploy-rancher
-#    image: quay.io/honestbee/drone-kubernetes
-#    settings:
-#      kubernetes_server: https://192.168.56.20/v3
-#      kubernetes_token: token-f2kcd:vhbc2ccchgzbfdb4m9zc7zrbn6mrb284brxstfqnktfbw7j74p5c47
-#      namespace: default
-#      deployment: dentist-mysql
-#      repo: $${REPO}/$${NAMESPACE}
-#      container: $${MYSQL_NAME}
-#      tag: 109
-#    when:
-#      branch:
-#        - master
-#      event:
-#        - push
+      kubernetes_server: https://192.168.56.20/v3
+      kubernetes_token: token-f2kcd:vhbc2ccchgzbfdb4m9zc7zrbn6mrb284brxstfqnktfbw7j74p5c47
+      namespace: default
+      deployment: deployment.extensions/dentist-mysql
+      repo: $${REPO}/$${NAMESPACE}
+      container: $${MYSQL_NAME}
+      tag: 109
+    when:
+      branch:
+        - master
+      event:
+        - push
 #    depends_on:
 #      - docker-buid-push
 
