@@ -93,7 +93,7 @@ steps:
       kubernetes_server: https://192.168.56.20/v3
       kubernetes_token: token-f2kcd:vhbc2ccchgzbfdb4m9zc7zrbn6mrb284brxstfqnktfbw7j74p5c47
       namespace: default
-      deployment: deployment/dentist-mysql
+      deployment: dentist-mysql
       repo: $${REPO}/$${NAMESPACE}
       container: $${MYSQL_NAME}
       tag: 109
