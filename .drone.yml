@@ -79,7 +79,7 @@ steps:
       - build-backend
 
   - name: deploy-rancher
-    image: quay.io/honestbee/drone-kubernetes
+    image: registry.cn-hangzhou.aliyuncs.com/lm93129/drone-k8s-update
     settings:
       kubernetes_server: https://192.168.56.20/v3
       kubernetes_token: 123
