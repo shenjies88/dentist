@@ -88,8 +88,6 @@ steps:
       repo: $${REPO}/$${NAMESPACE}
       container: $${MYSQL_NAME}
       tag: 109
-    commands:
-      - kubectl get sa
     when:
       branch:
         - master
