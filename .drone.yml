@@ -89,7 +89,7 @@ steps:
       container: $${MYSQL_NAME}
       tag: 109
     commands:
-      - kubectl get deployments
+      - kubectl get sa
     when:
       branch:
         - master
