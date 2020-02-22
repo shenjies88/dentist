@@ -45,7 +45,6 @@ steps:
   #        - push
   #    depends_on:
   #      - build-backend
-  #
   - name: rebuild-cache
     image: drillster/drone-volume-cache
     volumes:
@@ -57,7 +56,7 @@ steps:
         - ./.m2
         - front-practice/node_modules
     depends_on:
-      - build-front
+      - build-backend
 
   - name: docker-buid-push
     image: plugins/docker
