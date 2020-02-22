@@ -80,7 +80,7 @@ steps:
   - name: rancher
     image: peloton/drone-rancher
     settings:
-      url: http://192.168.56.20:80
+      url: https://192.168.56.20:443
       access_key: token-f2kcd
       secret_key: vhbc2ccchgzbfdb4m9zc7zrbn6mrb284brxstfqnktfbw7j74p5c47
       service: huh/service
