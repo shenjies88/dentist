@@ -46,20 +46,18 @@ steps:
   #    depends_on:
   #      - build-backend
   #
-
-#  - name: rebuild-cache
-#    image: drillster/drone-volume-cache
-#    volumes:
-#      - name: cache
-#        path: /cache
-#    settings:
-#      rebuild: true
-#      mount:
-#        - ./.m2
-#        - front-practice/node_modules
-#    depends_on:
-#      - build-front
-
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      rebuild: true
+      mount:
+        - ./.m2
+        - front-practice/node_modules
+    depends_on:
+      - build-front
 #  - name: docker-buid-push
 #    image: plugins/docker
 #    settings:
