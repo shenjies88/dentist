@@ -21,7 +21,7 @@ steps:
         - front-practice/node_modules
 
   - name: build-backend
-    image: maven:3-alpine
+    image: maven:3.6.3-jdk-8
     commands:
       - mvn -DskipTests clean package -Dmaven.repo.local=./.m2/repository
     when:
