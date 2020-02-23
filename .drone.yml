@@ -89,10 +89,10 @@ steps:
         from_secret: K8S_TOKEN
       namespace: app
       #      deployment: [ dentist-mysql, dentist-backend, dentist-front ]
-      deployment: [ ${MYSQL_NAME}, ${BACKEND_NAME}, ${FRONT_NAME} ]
+      deployment: [ $MYSQL_NAME, $BACKEND_NAME, $FRONT_NAME ]
       repo: ${REPO}/${NAMESPACE}
       #      container: [ dentist-mysql, dentist-backend, dentist-front ]
-      container: [ ${MYSQL_NAME}, ${BACKEND_NAME}, ${FRONT_NAME} ]
+      container: [ $MYSQL_NAME, $BACKEND_NAME, $FRONT_NAME ]
       tag: ${DRONE_BUILD_NUMBER}
     when:
       branch:
