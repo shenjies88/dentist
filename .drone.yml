@@ -88,11 +88,9 @@ steps:
       kubernetes_token:
         from_secret: K8S_TOKEN
       namespace: app
-      #      deployment: [ dentist-mysql, dentist-backend, dentist-front ]
-      deployment: [ $MYSQL_NAME, $BACKEND_NAME, $FRONT_NAME ]
-      repo: ${REPO}/${NAMESPACE}
-      #      container: [ dentist-mysql, dentist-backend, dentist-front ]
-      container: [ $MYSQL_NAME, $BACKEND_NAME, $FRONT_NAME ]
+      deployment: [ dentist-mysql, dentist-backend, dentist-front ]
+      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88
+      container: [ dentist-mysql, dentist-backend, dentist-front ]
       tag: ${DRONE_BUILD_NUMBER}
     when:
       branch:
