@@ -15,7 +15,8 @@ docker build --rm=true -f dockerfile-backend -t ${repo}/${namespace}/${backend_n
 docker push ${repo}/${namespace}/${backend_name}:${version};
 docker rmi ${repo}/${namespace}/${backend_name}:${version};
 # 前端
-docker build --rm=true -f dockerfile-backend -t ${repo}/${namespace}/${front_name}:${version} .;
+docker build --rm=true -f dockerfile-front -t ${repo}/${namespace}/${front_name}:${version} .;
 docker push ${repo}/${namespace}/${front_name}:${version};
 docker rmi ${repo}/${namespace}/${front_name}:${version};
+docker volume prune -f
 docker system prune -f
