@@ -58,7 +58,7 @@ steps:
         - front-practice/node_modules
     depends_on:
       - build-backend
-      - build-fron
+      - build-front
 
   - name: docker-buid-push
     image: plugins/docker
