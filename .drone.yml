@@ -4,7 +4,7 @@ name: build-deploy
 environment:
   BACKEND_NAME: dentist-backend
   FRONT_NAME: dentist-front
-  MYSQL_NAME: dentist-mysql
+  #  MYSQL_NAME: dentist-mysql
   REPO: registry.cn-hangzhou.aliyuncs.com
   NAMESPACE: shenjies88
 
@@ -68,7 +68,7 @@ steps:
       DOCKER_USERNAME:
         from_secret: DOCKER_USERNAME
     commands:
-      - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${MYSQL_NAME} $${REPO} $${NAMESPACE}
+      - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${REPO} $${NAMESPACE}
     volumes:
       - name: docker
         path: /var/run/docker.sock
@@ -80,25 +80,6 @@ steps:
     depends_on:
       - build-backend
       - build-front
-
-  - name: deploy-mysql
-    image: quay.io/honestbee/drone-kubernetes
-    settings:
-      kubernetes_server: https://192.168.56.20/k8s/clusters/c-nxpjm
-      kubernetes_token:
-        from_secret: K8S_TOKEN
-      namespace: app
-      deployment: dentist-mysql
-      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-mysql
-      container: dentist-mysql
-      tag: ${DRONE_BUILD_NUMBER}
-    when:
-      branch:
-        - master
-      event:
-        - push
-    depends_on:
-      - docker-buid-push
 
   - name: deploy-backend
     image: quay.io/honestbee/drone-kubernetes
