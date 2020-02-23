@@ -95,8 +95,8 @@ steps:
       namespace: default
       deployment: mysql
       repo: $${REPO}/$${NAMESPACE}
-      container: $${MYSQL_NAME}
-      tag: 109
+      container: mysql
+      tag: 100
     when:
       branch:
         - master
