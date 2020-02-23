@@ -90,8 +90,8 @@ steps:
   - name: deploy-rancher
     image: quay.io/honestbee/drone-kubernetes
     settings:
-      kubernetes_server: https://192.168.56.20:443
-      kubernetes_token: token-f2kcd:vhbc2ccchgzbfdb4m9zc7zrbn6mrb284brxstfqnktfbw7j74p5c47
+      kubernetes_server: https://192.168.56.20/v3
+      kubernetes_token: token-w96hv:2hfknfjv82mkn7bfwzb6b62mpx9rzs7rf8hzrjxpz29tq65s2wlpws
       namespace: default
       deployment: dentist-mysql
       repo: $${REPO}/$${NAMESPACE}
