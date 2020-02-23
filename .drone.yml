@@ -9,99 +9,94 @@ environment:
   NAMESPACE: shenjies88
 
 steps:
-#  - name: restore-cache
-  #    image: drillster/drone-volume-cache
-  #    volumes:
-  #      - name: cache
-  #        path: /cache
-  #    settings:
-  #      restore: true
-  #      mount:
-  #        - ./.m2
-  #        - front-practice/node_modules
+  - name: restore-cache
+      image: drillster/drone-volume-cache
+      volumes:
+        - name: cache
+          path: /cache
+      settings:
+        restore: true
+        mount:
+          - ./.m2
+          - front-practice/node_modules
 
-  #  - name: build-backend
-  #    image: maven:3.6.3-jdk-8
-  #    commands:
-  #      - mvn -DskipTests clean package -Dmaven.repo.local=./.m2/repository
-  #    when:
-  #      branch:
-  #        - master
-  #      event:
-  #        - push
-  #    depends_on:
-  #      - restore-cache
+      - name: build-backend
+        image: maven:3.6.3-jdk-8
+        commands:
+          - mvn -DskipTests clean package -Dmaven.repo.local=./.m2/repository
+        when:
+          branch:
+            - master
+          event:
+            - push
+        depends_on:
+          - restore-cache
 
-  #  - name: build-front
-  #    image: node:latest
-  #    commands:
-  #      - cd front-practice
-  #      - yarn
-  #      - yarn build
-  #    when:
-  #      branch:
-  #        - master
-  #      event:
-  #        - push
-  #    depends_on:
-  #      - build-backend
-  #  - name: rebuild-cache
-  #    image: drillster/drone-volume-cache
-  #    volumes:
-  #      - name: cache
-  #        path: /cache
-  #    settings:
-  #      rebuild: true
-  #      mount:
-  #        - ./.m2
-  #        - front-practice/node_modules
-  #    depends_on:
-  #      - build-backend
+      - name: build-front
+        image: node:latest
+        commands:
+          - cd front-practice
+          - yarn
+          - yarn build
+        when:
+          branch:
+            - master
+          event:
+            - push
+        depends_on:
+          - restore-cache
 
-  #  - name: docker-buid-push
-  #    image: plugins/docker
-  #    settings:
-  #      DOCKER_PASSWORD:
-  #        from_secret: DOCKER_PASSWORD
-  #      DOCKER_USERNAME:
-  #        from_secret: DOCKER_USERNAME
-  #    commands:
-  #      - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${MYSQL_NAME} $${REPO} $${NAMESPACE}
-  #    volumes:
-  #      - name: docker
-  #        path: /var/run/docker.sock
-  #    when:
-  #      branch:
-  #        - master
-  #      event:
-  #        - push
-  #    depends_on:
-  #      - build-backend
-  #  - name: rancher
-  #    image: peloton/drone-rancher
-  #    settings:
-  #      url: https://192.168.56.20:443
-  #      access_key: token-f2kcd
-  #      secret_key: vhbc2ccchgzbfdb4m9zc7zrbn6mrb284brxstfqnktfbw7j74p5c47
-  #      service: huh/service
-  #      docker_image: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-mysql:109
-  #      confirm: true
-  #      timeout: 180
-  - name: deploy-rancher
-    image: quay.io/honestbee/drone-kubernetes
-    settings:
-      kubernetes_server: https://192.168.56.20/k8s/clusters/c-nxpjm
-      kubernetes_token: token-w96hv:2hfknfjv82mkn7bfwzb6b62mpx9rzs7rf8hzrjxpz29tq65s2wlpws
-      namespace: cmd
-      deployment: mysql
-      repo: $${REPO}/$${NAMESPACE}
-      container: mysql
-      tag: 109
-    when:
-      branch:
-        - master
-      event:
-        - push
+      - name: rebuild-cache
+        image: drillster/drone-volume-cache
+        volumes:
+          - name: cache
+            path: /cache
+        settings:
+          rebuild: true
+          mount:
+            - ./.m2
+            - front-practice/node_modules
+        depends_on:
+          - build-backend
+          - build-front
+
+      - name: docker-buid-push
+        image: plugins/docker
+        settings:
+          DOCKER_PASSWORD:
+            from_secret: DOCKER_PASSWORD
+          DOCKER_USERNAME:
+            from_secret: DOCKER_USERNAME
+        commands:
+          - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${MYSQL_NAME} $${REPO} $${NAMESPACE}
+        volumes:
+          - name: docker
+            path: /var/run/docker.sock
+        when:
+          branch:
+            - master
+          event:
+            - push
+        depends_on:
+          - build-backend
+          - build-front
+
+#  - name: deploy-k8s
+#    image: quay.io/honestbee/drone-kubernetes
+#    settings:
+#      kubernetes_server: https://192.168.56.20/k8s/clusters/c-nxpjm
+#      kubernetes_token:
+#        from_secret: K8S_TOKEN
+#      namespace: app
+#      deployment: [$${BACKEND_NAME},$${FRONT_NAME},$${MYSQL_NAME}]
+#      repo: $${REPO}/$${NAMESPACE}
+#      container: [$${BACKEND_NAME},$${FRONT_NAME},$${MYSQL_NAME}]
+#      tag: $${DRONE_BUILD_NUMBER}
+#    when:
+#      branch:
+#        - master
+#      event:
+#        - push
 #    depends_on:
 #      - docker-buid-push
 

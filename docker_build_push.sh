@@ -11,11 +11,11 @@ docker build --rm=true -f dockerfile-mysql -t ${repo}/${namespace}/${mysql_name}
 docker push ${repo}/${namespace}/${mysql_name}:${version};
 docker rmi ${repo}/${namespace}/${mysql_name}:${version};
 # 后端
-#docker build --rm=true -f dockerfile-backend -t ${repo}/${namespace}/${backend_name}:${version} .;
-#docker push ${repo}/${namespace}/${backend_name}:${version};
-#docker rmi ${repo}/${namespace}/${backend_name}:${version};
+docker build --rm=true -f dockerfile-backend -t ${repo}/${namespace}/${backend_name}:${version} .;
+docker push ${repo}/${namespace}/${backend_name}:${version};
+docker rmi ${repo}/${namespace}/${backend_name}:${version};
 # 前端
-#docker build --rm=true -f dockerfile-backend -t ${repo}/${namespace}/${front_name}:${version} .;
-#docker push ${repo}/${namespace}/${front_name}:${version};
-#docker rmi ${repo}/${namespace}/${front_name}:${version};
+docker build --rm=true -f dockerfile-backend -t ${repo}/${namespace}/${front_name}:${version} .;
+docker push ${repo}/${namespace}/${front_name}:${version};
+docker rmi ${repo}/${namespace}/${front_name}:${version};
 docker system prune -f
