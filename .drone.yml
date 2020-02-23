@@ -89,9 +89,9 @@ steps:
         from_secret: K8S_TOKEN
       namespace: app
       deployment: dentist-mysql
-      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88
+      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-mysql
       container: dentist-mysql
-      tag: 24
+      tag: 22
       #tag: ${DRONE_BUILD_NUMBER}
     when:
       branch:
@@ -109,9 +109,9 @@ steps:
         from_secret: K8S_TOKEN
       namespace: app
       deployment: dentist-backend
-      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88
+      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend
       container: dentist-backend
-      tag: 24
+      tag: 22
       #tag: ${DRONE_BUILD_NUMBER}
     when:
       branch:
@@ -129,7 +129,7 @@ steps:
         from_secret: K8S_TOKEN
       namespace: app
       deployment: dentist-front
-      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88
+      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-front
       container: dentist-front
       tag: 22
       #tag: ${DRONE_BUILD_NUMBER}
