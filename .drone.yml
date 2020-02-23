@@ -91,12 +91,12 @@ steps:
     image: quay.io/honestbee/drone-kubernetes
     settings:
       kubernetes_server: https://192.168.56.20/v3
-      kubernetes_token: 123
+      kubernetes_token: token-w96hv:2hfknfjv82mkn7bfwzb6b62mpx9rzs7rf8hzrjxpz29tq65s2wlpws
       namespace: default
       deployment: mysql
       repo: $${REPO}/$${NAMESPACE}
       container: mysql
-      tag: 100
+      tag: 109
     when:
       branch:
         - master
