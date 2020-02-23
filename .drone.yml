@@ -131,7 +131,7 @@ steps:
       deployment: dentist-front
       repo: registry.cn-hangzhou.aliyuncs.com/shenjies88
       container: dentist-front
-      tag: 24
+      tag: 22
       #tag: ${DRONE_BUILD_NUMBER}
     when:
       branch:
