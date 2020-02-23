@@ -91,9 +91,9 @@ steps:
     image: quay.io/honestbee/drone-kubernetes
     settings:
       kubernetes_server: https://192.168.56.20/v3
-      kubernetes_token: 123
+      kubernetes_token: token-w96hv:2hfknfjv82mkn7bfwzb6b62mpx9rzs7rf8hzrjxpz29tq65s2wlpws
       namespace: default
-      deployment: dentist-mysql
+      deployment: mysql
       repo: $${REPO}/$${NAMESPACE}
       container: $${MYSQL_NAME}
       tag: 109
