@@ -95,7 +95,7 @@ steps:
       namespace: cmd
       deployment: mysql
       repo: $${REPO}/$${NAMESPACE}
-      container: 123
+      container: mysql
       tag: 109
     when:
       branch:
