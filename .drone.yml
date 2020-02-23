@@ -81,16 +81,56 @@ steps:
   #      - build-backend
   #      - build-front
 
-  - name: deploy-k8s
+  - name: deploy-mysql
     image: registry.cn-hangzhou.aliyuncs.com/lm93129/drone-k8s-update
     settings:
       kubernetes_server: https://192.168.56.20/k8s/clusters/c-nxpjm
       kubernetes_token:
         from_secret: K8S_TOKEN
       namespace: app
-      deployment: [ dentist-mysql, dentist-backend, dentist-front ]
+      deployment: dentist-mysql
       repo: registry.cn-hangzhou.aliyuncs.com/shenjies88
-      container: [ dentist-mysql, dentist-backend, dentist-front ]
+      container: dentist-mysql
+      tag: 24
+      #tag: ${DRONE_BUILD_NUMBER}
+    when:
+      branch:
+        - master
+      event:
+        - push
+  #    depends_on:
+  #      - docker-buid-push
+
+  - name: deploy-backend
+    image: registry.cn-hangzhou.aliyuncs.com/lm93129/drone-k8s-update
+    settings:
+      kubernetes_server: https://192.168.56.20/k8s/clusters/c-nxpjm
+      kubernetes_token:
+        from_secret: K8S_TOKEN
+      namespace: app
+      deployment: dentist-backend
+      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88
+      container: dentist-backend
+      tag: 24
+      #tag: ${DRONE_BUILD_NUMBER}
+    when:
+      branch:
+        - master
+      event:
+        - push
+  #    depends_on:
+  #      - docker-buid-push
+
+  - name: deploy-front
+    image: registry.cn-hangzhou.aliyuncs.com/lm93129/drone-k8s-update
+    settings:
+      kubernetes_server: https://192.168.56.20/k8s/clusters/c-nxpjm
+      kubernetes_token:
+        from_secret: K8S_TOKEN
+      namespace: app
+      deployment: dentist-front
+      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88
+      container: dentist-front
       tag: 24
       #tag: ${DRONE_BUILD_NUMBER}
     when:
