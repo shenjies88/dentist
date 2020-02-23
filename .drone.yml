@@ -97,8 +97,8 @@ steps:
         - master
       event:
         - push
-      depends_on:
-        - docker-buid-push
+    depends_on:
+      - docker-buid-push
 
   - name: deploy-backend
     image: quay.io/honestbee/drone-kubernetes
@@ -116,8 +116,8 @@ steps:
         - master
       event:
         - push
-      depends_on:
-        - docker-buid-push
+    depends_on:
+      - docker-buid-push
 
   - name: deploy-front
     image: quay.io/honestbee/drone-kubernetes
