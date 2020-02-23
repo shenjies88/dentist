@@ -88,10 +88,10 @@ steps:
       kubernetes_token:
         from_secret: K8S_TOKEN
       namespace: app
-      deployment: [$${MYSQL_NAME},$${BACKEND_NAME},$${FRONT_NAME}]
+      deployment: [${MYSQL_NAME},${BACKEND_NAME},${FRONT_NAME}]
       repo: $${REPO}/$${NAMESPACE}
-      container: [$${MYSQL_NAME},$${BACKEND_NAME},$${FRONT_NAME}]
-      tag: $${DRONE_BUILD_NUMBER}
+      container: [${MYSQL_NAME},${BACKEND_NAME},${FRONT_NAME}]
+      tag: ${DRONE_BUILD_NUMBER}
     when:
       branch:
         - master
