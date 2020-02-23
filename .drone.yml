@@ -30,7 +30,7 @@ steps:
       event:
         - push
     depends_on:
-      - restore-cach
+      - restore-cache
 
   - name: build-front
     image: node:latest
@@ -44,7 +44,7 @@ steps:
       event:
         - push
     depends_on:
-      - restore-cach
+      - restore-cache
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
