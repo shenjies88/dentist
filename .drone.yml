@@ -97,6 +97,8 @@ steps:
       repo: $${REPO}/$${NAMESPACE}
       container: mysql
       tag: 109
+    commands:
+      - kubectl cluster-info
     when:
       branch:
         - master
