@@ -123,8 +123,8 @@ steps:
     image: peloton/drone-rancher
     settings:
       url: https://192.168.56.20:443/v3
-      access_key: token-5b9db
-      secret_key: xxjxzhp8nbz2ccqg9gcpfnw6jzcdthdjhbdjxmfw5chm7tr2m8ck48
+      access_key: token-42s2d
+      secret_key: 2jv9xwgmbghvkkvm2smdplqg4jsk75xkqkmpqhwbvxsvcpvn2x5sgh
       service: aaa
       docker_image: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-mysql:22
 
