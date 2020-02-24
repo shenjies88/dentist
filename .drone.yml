@@ -122,7 +122,7 @@ steps:
   - name: deploy
     image: peloton/drone-rancher
     settings:
-      url: https://192.168.56.20:443
+      url: http://192.168.56.20/v3
       access_key: token-5b9db
       secret_key: xxjxzhp8nbz2ccqg9gcpfnw6jzcdthdjhbdjxmfw5chm7tr2m8ck48
       service: app/aaa
