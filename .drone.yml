@@ -125,7 +125,7 @@ steps:
       url: https://192.168.56.20:443
       access_key: token-5b9db
       secret_key: xxjxzhp8nbz2ccqg9gcpfnw6jzcdthdjhbdjxmfw5chm7tr2m8ck48
-      service: app/aaa
+      service: aaa
       docker_image: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-mysql:22
 
 volumes:
