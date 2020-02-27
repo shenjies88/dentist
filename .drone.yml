@@ -6,7 +6,6 @@ environment:
   FRONT_NAME: dentist-front
   REPO: 10.168.1.10:10080
   NAMESPACE: dev
-  MIRROR：https://sdrd9a5s.mirror.aliyuncs.com
 
 steps:
   - name: restore-cache
@@ -70,7 +69,7 @@ steps:
       repo: $REPO/$NAMESPACE/$BACKEND_NAME
       registry: $REPO
       dockerfile: dockerfile-backend
-      mirror: ${MIRROR}
+      mirror: https://sdrd9a5s.mirror.aliyuncs.com
     when:
       branch:
         - master
