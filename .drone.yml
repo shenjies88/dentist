@@ -4,8 +4,8 @@ name: build-deploy
 environment:
   BACKEND_NAME: dentist-backend
   FRONT_NAME: dentist-front
-  REPO: registry.cn-hangzhou.aliyuncs.com
-  NAMESPACE: shenjies88
+  REPO: 10.168.1.10:10080
+  NAMESPACE: dev
 
 steps:
   - name: restore-cache
@@ -59,27 +59,27 @@ steps:
       - build-backend
       - build-front
 
-#  - name: docker-buid-push
-#    image: plugins/docker
-#    settings:
-#      DOCKER_PASSWORD:
-#        from_secret: DOCKER_PASSWORD
-#      DOCKER_USERNAME:
-#        from_secret: DOCKER_USERNAME
-#    commands:
-#      - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${REPO} $${NAMESPACE}
-#    volumes:
-#      - name: docker
-#        path: /var/run/docker.sock
-#    when:
-#      branch:
-#        - master
-#      event:
-#        - push
-#    depends_on:
-#      - build-backend
-#      - build-front
-#
+  - name: docker-buid-push
+    image: plugins/docker
+    settings:
+      DOCKER_PASSWORD:
+        from_secret: DOCKER_PASSWORD
+      DOCKER_USERNAME:
+        from_secret: DOCKER_USERNAME
+    commands:
+      - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${REPO} $${NAMESPACE}
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - build-backend
+      - build-front
+
 #  - name: deploy-backend
 #    image: quay.io/honestbee/drone-kubernetes
 #    settings:
