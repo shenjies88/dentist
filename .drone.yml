@@ -31,19 +31,19 @@ steps:
     depends_on:
       - restore-cache
 
-  - name: build-front
-    image: node:latest
-    commands:
-      - cd front-practice
-      - yarn
-      - yarn build
-    when:
-      branch:
-        - master
-      event:
-        - push
-    depends_on:
-      - restore-cache
+  #  - name: build-front
+  #    image: node:latest
+  #    commands:
+  #      - cd front-practice
+  #      - yarn
+  #      - yarn build
+  #    when:
+  #      branch:
+  #        - master
+  #      event:
+  #        - push
+  #    depends_on:
+  #      - restore-cache
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
@@ -57,7 +57,7 @@ steps:
         - front-practice/node_modules
     depends_on:
       - build-backend
-      - build-front
+  #      - build-front
 
   - name: docker-buid-push
     image: plugins/docker
@@ -67,13 +67,10 @@ steps:
       password:
         from_secret: DOCKER_USERNAME
       insecure: true
-      build_args:
-        - HTTP_PROXY=http://10.168.1.10:10080
-    commands:
-      - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${REPO} $${NAMESPACE}
-    volumes:
-      - name: docker
-        path: /var/run/docker.sock
+      tags: ${DRONE_BUILD_NUMBER}
+      repo: ${REPO}/${NAMESPACE}/${BACKEND_NAME}
+      registry: ${REPO}
+      dockerfile: dockerfile-backend
     when:
       branch:
         - master
@@ -81,7 +78,7 @@ steps:
         - push
     depends_on:
       - build-backend
-      - build-front
+#      - build-front
 
 #  - name: deploy-backend
 #    image: quay.io/honestbee/drone-kubernetes
@@ -125,9 +122,6 @@ volumes:
   - name: cache
     host:
       path: /tmp/cache
-  - name: docker
-    host:
-      path: /var/run/docker.sock
 
 
       
