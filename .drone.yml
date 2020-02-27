@@ -68,8 +68,8 @@ steps:
         from_secret: DOCKER_USERNAME
       insecure: true
       tags: ${DRONE_BUILD_NUMBER}
-      repo: ${REPO}/${NAMESPACE}/${BACKEND_NAME}
-      registry: ${REPO}
+      repo: 10.168.1.10:10080/dev/dentist-backend
+      registry: 10.168.1.10:10080
       dockerfile: dockerfile-backend
     when:
       branch:
