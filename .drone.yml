@@ -62,10 +62,8 @@ steps:
   - name: docker-buid-push
     image: plugins/docker
     settings:
-      username:
-        from_secret: DOCKER_PASSWORD
-      password:
-        from_secret: DOCKER_USERNAME
+      username: admin
+      password: 123456
       insecure: true
       auth: YWRtaW46MTIzNDU2
       tags: ${DRONE_BUILD_NUMBER}
