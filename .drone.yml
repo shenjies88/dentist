@@ -77,9 +77,9 @@ steps:
         - master
       event:
         - push
-    depends_on:
-      - build-backend
-      - build-front
+#    depends_on:
+#      - build-backend
+#      - build-front
 
 #  - name: deploy-backend
 #    image: quay.io/honestbee/drone-kubernetes
