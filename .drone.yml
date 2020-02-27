@@ -8,56 +8,56 @@ environment:
   NAMESPACE: dev
 
 steps:
-  - name: restore-cache
-    image: drillster/drone-volume-cache
-    volumes:
-      - name: cache
-        path: /cache
-    settings:
-      restore: true
-      mount:
-        - ./.m2
-        - front-practice/node_modules
-
-  - name: build-backend
-    image: maven:3.6.3-jdk-8
-    commands:
-      - mvn -DskipTests clean package -Dmaven.repo.local=./.m2/repository
-    when:
-      branch:
-        - master
-      event:
-        - push
-    depends_on:
-      - restore-cache
-
-  - name: build-front
-    image: node:latest
-    commands:
-      - cd front-practice
-      - yarn
-      - yarn build
-    when:
-      branch:
-        - master
-      event:
-        - push
-    depends_on:
-      - restore-cache
-
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    volumes:
-      - name: cache
-        path: /cache
-    settings:
-      rebuild: true
-      mount:
-        - ./.m2
-        - front-practice/node_modules
-    depends_on:
-      - build-backend
-      - build-front
+#  - name: restore-cache
+  #    image: drillster/drone-volume-cache
+  #    volumes:
+  #      - name: cache
+  #        path: /cache
+  #    settings:
+  #      restore: true
+  #      mount:
+  #        - ./.m2
+  #        - front-practice/node_modules
+  #
+  #  - name: build-backend
+  #    image: maven:3.6.3-jdk-8
+  #    commands:
+  #      - mvn -DskipTests clean package -Dmaven.repo.local=./.m2/repository
+  #    when:
+  #      branch:
+  #        - master
+  #      event:
+  #        - push
+  #    depends_on:
+  #      - restore-cache
+  #
+  #  - name: build-front
+  #    image: node:latest
+  #    commands:
+  #      - cd front-practice
+  #      - yarn
+  #      - yarn build
+  #    when:
+  #      branch:
+  #        - master
+  #      event:
+  #        - push
+  #    depends_on:
+  #      - restore-cache
+  #
+  #  - name: rebuild-cache
+  #    image: drillster/drone-volume-cache
+  #    volumes:
+  #      - name: cache
+  #        path: /cache
+  #    settings:
+  #      rebuild: true
+  #      mount:
+  #        - ./.m2
+  #        - front-practice/node_modules
+  #    depends_on:
+  #      - build-backend
+  #      - build-front
 
   - name: docker-buid-push
     image: plugins/docker
@@ -66,13 +66,12 @@ steps:
         from_secret: DOCKER_PASSWORD
       DOCKER_USERNAME:
         from_secret: DOCKER_USERNAME
+      insecure: true
     commands:
       - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${REPO} $${NAMESPACE}
     volumes:
       - name: docker
         path: /var/run/docker.sock
-      - name: docker-config
-        path: /etc/docker/daemon.json
     when:
       branch:
         - master
@@ -124,9 +123,6 @@ volumes:
   - name: cache
     host:
       path: /tmp/cache
-  - name: docker-config
-    host:
-      path: /etc/docker/daemon.json
   - name: docker
     host:
       path: /var/run/docker.sock
