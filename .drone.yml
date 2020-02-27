@@ -62,12 +62,14 @@ steps:
   - name: docker-buid-push
     image: plugins/docker
     settings:
-      username: admin
-      password: 123456
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
       insecure: true
       tags: ${DRONE_BUILD_NUMBER}
-      repo: $REPO/$NAMESPACE/$BACKEND_NAME
-      registry: $REPO
+      repo: 10.168.1.10:10080/dev/dentist-backend
+      registry: 10.168.1.10:10080
       dockerfile: dockerfile-backend
       mirror: https://sdrd9a5s.mirror.aliyuncs.com
     when:
