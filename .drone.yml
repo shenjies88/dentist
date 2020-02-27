@@ -25,19 +25,19 @@ steps:
     depends_on:
       - restore-cache
 
-  #    - name: build-front
-  #      image: node:latest
-  #      commands:
-  #        - cd front-practice
-  #        - yarn
-  #        - yarn build
-  #      when:
-  #        branch:
-  #          - master
-  #        event:
-  #          - push
-  #      depends_on:
-  #        - restore-cache
+  - name: build-front
+    image: node:latest
+    commands:
+      - cd front-practice
+      - yarn
+      - yarn build
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - restore-cache
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
@@ -51,6 +51,7 @@ steps:
         - front-practice/node_modules
     depends_on:
       - build-backend
+      - build-front
 
   - name: docker-buid-push-backend
     image: plugins/docker
@@ -72,6 +73,27 @@ steps:
         - push
     depends_on:
       - build-backend
+
+  - name: docker-buid-push-front
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+      insecure: true
+      tags: ${DRONE_BUILD_NUMBER}
+      repo: 10.168.1.10:10080/dev/dentist-front
+      registry: 10.168.1.10:10080
+      dockerfile: dockerfile-front
+      mirror: https://sdrd9a5s.mirror.aliyuncs.com
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - build-front
 
   - name: deploy-backend
     image: quay.io/honestbee/drone-kubernetes
