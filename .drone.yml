@@ -71,6 +71,8 @@ steps:
     volumes:
       - name: docker
         path: /var/run/docker.sock
+      - name: docker-config
+        path: /etc/docker/daemon.json
     when:
       branch:
         - master
@@ -122,6 +124,9 @@ volumes:
   - name: cache
     host:
       path: /tmp/cache
+  - name: docker-config
+    host:
+      path: /etc/docker/daemon.json
   - name: docker
     host:
       path: /var/run/docker.sock
