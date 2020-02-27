@@ -14,7 +14,7 @@ steps:
         - front-practice/node_modules
 
   - name: build-backend
-    image: maven:3.6.3-jdk-8
+    image: maven:3.6.1-jdk-8-alpine
     commands:
       - mvn -DskipTests clean package -Dmaven.repo.local=./.m2/repository
     when:
@@ -26,7 +26,7 @@ steps:
       - restore-cache
 
   - name: build-front
-    image: node:latest
+    image: node:lts-alpine3.9
     commands:
       - cd front-practice
       - yarn
