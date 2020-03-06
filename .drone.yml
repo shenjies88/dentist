@@ -10,15 +10,15 @@ environment:
 
 steps:
   - name: restore-cache
-      image: drillster/drone-volume-cache
-      volumes:
-        - name: cache
-          path: /cache
-      settings:
-        restore: true
-        mount:
-          - ./.m2
-          - front-practice/node_modules
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      restore: true
+      mount:
+        - ./.m2
+        - front-practice/node_modules
 
   - name: build-backend
     image: maven:3.6.3-jdk-8
