@@ -9,124 +9,115 @@ environment:
   NAMESPACE: shenjies88
 
 steps:
-#  - name: restore-cache
-  #    image: drillster/drone-volume-cache
-  #    volumes:
-  #      - name: cache
-  #        path: /cache
-  #    settings:
-  #      restore: true
-  #      mount:
-  #        - ./.m2
-  #        - front-practice/node_modules
-  #
-  #  - name: build-backend
-  #    image: maven:3.6.3-jdk-8
-  #    commands:
-  #      - mvn -DskipTests clean package -Dmaven.repo.local=./.m2/repository
-  #    when:
-  #      branch:
-  #        - master
-  #      event:
-  #        - push
-  #    depends_on:
-  #      - restore-cache
-  #
-  #  - name: build-front
-  #    image: node:latest
-  #    commands:
-  #      - cd front-practice
-  #      - yarn
-  #      - yarn build
-  #    when:
-  #      branch:
-  #        - master
-  #      event:
-  #        - push
-  #    depends_on:
-  #      - restore-cache
-  #
-  #  - name: rebuild-cache
-  #    image: drillster/drone-volume-cache
-  #    volumes:
-  #      - name: cache
-  #        path: /cache
-  #    settings:
-  #      rebuild: true
-  #      mount:
-  #        - ./.m2
-  #        - front-practice/node_modules
-  #    depends_on:
-  #      - build-backend
-  #      - build-front
-  #
-  #  - name: docker-buid-push
-  #    image: plugins/docker
-  #    settings:
-  #      DOCKER_PASSWORD:
-  #        from_secret: DOCKER_PASSWORD
-  #      DOCKER_USERNAME:
-  #        from_secret: DOCKER_USERNAME
-  #    commands:
-  #      - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${REPO} $${NAMESPACE}
-  #    volumes:
-  #      - name: docker
-  #        path: /var/run/docker.sock
-  #    when:
-  #      branch:
-  #        - master
-  #      event:
-  #        - push
-  #    depends_on:
-  #      - build-backend
-  #      - build-front
-  #
-  #  - name: deploy-backend
-  #    image: quay.io/honestbee/drone-kubernetes
-  #    settings:
-  #      kubernetes_server: https://192.168.56.20/k8s/clusters/c-nxpjm
-  #      kubernetes_token:
-  #        from_secret: K8S_TOKEN
-  #      namespace: app
-  #      deployment: dentist-backend
-  #      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend
-  #      container: dentist-backend
-  #      tag: ${DRONE_BUILD_NUMBER}
-  #    when:
-  #      branch:
-  #        - master
-  #      event:
-  #        - push
-  #    depends_on:
-  #      - docker-buid-push
-  #
-  #  - name: deploy-front
-  #    image: quay.io/honestbee/drone-kubernetes
-  #    settings:
-  #      kubernetes_server: https://192.168.56.20/k8s/clusters/c-nxpjm
-  #      kubernetes_token:
-  #        from_secret: K8S_TOKEN
-  #      namespace: app
-  #      deployment: dentist-front
-  #      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-front
-  #      container: dentist-front
-  #      tag: ${DRONE_BUILD_NUMBER}
-  #    when:
-  #      branch:
-  #        - master
-  #      event:
-  #        - push
-  #    depends_on:
-  #      - docker-buid-push
+  - name: restore-cache
+      image: drillster/drone-volume-cache
+      volumes:
+        - name: cache
+          path: /cache
+      settings:
+        restore: true
+        mount:
+          - ./.m2
+          - front-practice/node_modules
 
-  - name: deploy
-    image: peloton/drone-rancher
+  - name: build-backend
+    image: maven:3.6.3-jdk-8
+    commands:
+      - mvn -DskipTests clean package -Dmaven.repo.local=./.m2/repository
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - restore-cache
+
+  - name: build-front
+    image: node:latest
+    commands:
+      - cd front-practice
+      - yarn
+      - yarn build
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - restore-cache
+
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
     settings:
-      url: https://192.168.56.20:443/v3
-      access_key: token-42s2d
-      secret_key: 2jv9xwgmbghvkkvm2smdplqg4jsk75xkqkmpqhwbvxsvcpvn2x5sgh
-      service: aaa
-      docker_image: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-mysql:22
+      rebuild: true
+      mount:
+        - ./.m2
+        - front-practice/node_modules
+    depends_on:
+      - build-backend
+      - build-front
+
+  - name: docker-buid-push
+    image: plugins/docker
+    settings:
+      DOCKER_PASSWORD:
+        from_secret: DOCKER_PASSWORD
+      DOCKER_USERNAME:
+        from_secret: DOCKER_USERNAME
+    commands:
+      - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${REPO} $${NAMESPACE}
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - build-backend
+      - build-front
+
+  - name: deploy-backend
+    image: quay.io/honestbee/drone-kubernetes
+    settings:
+      kubernetes_server: https://192.168.56.20/k8s/clusters/c-nxpjm
+      kubernetes_token:
+        from_secret: K8S_TOKEN
+      namespace: app
+      deployment: dentist-backend
+      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend
+      container: dentist-backend
+      tag: ${DRONE_BUILD_NUMBER}
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - docker-buid-push
+
+  - name: deploy-front
+    image: quay.io/honestbee/drone-kubernetes
+    settings:
+      kubernetes_server: https://192.168.56.20/k8s/clusters/c-nxpjm
+      kubernetes_token:
+        from_secret: K8S_TOKEN
+      namespace: app
+      deployment: dentist-front
+      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-front
+      container: dentist-front
+      tag: ${DRONE_BUILD_NUMBER}
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
+      - docker-buid-push
 
 volumes:
   - name: cache
