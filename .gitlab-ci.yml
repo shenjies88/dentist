@@ -28,15 +28,9 @@ push:
     - docker build --rm=true -f dockerfile-backend -t registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:123 .
     - docker push registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:123
     - docker rmi registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:123
+  only:
+    - master
+    - pushes
+  tags:
+    - vue-springboot
 
-#build-front:
-#  stage: build
-#  image: node:latest
-#  script:
-#    - yarn
-#    - yarn biuld
-#  only:
-#    - master
-#    - pushes
-#  tags:
-#    - vue-springboot
