@@ -2,13 +2,6 @@ kind: pipeline
 type: docker
 name: build-deploy
 
-environment:
-  BACKEND_NAME: dentist-backend
-  FRONT_NAME: dentist-front
-  #  MYSQL_NAME: dentist-mysql
-  REPO: registry.cn-hangzhou.aliyuncs.com
-  NAMESPACE: shenjies88
-
 steps:
   - name: restore-cache
     image: drillster/drone-volume-cache
@@ -22,7 +15,7 @@ steps:
         - front-practice/node_modules
 
   - name: build-backend
-    image: maven:3.6.3-jdk-8
+    image: maven:3.6.1-jdk-8-alpine
     commands:
       - mvn -DskipTests clean package -Dmaven.repo.local=./.m2/repository
     when:
@@ -34,7 +27,7 @@ steps:
       - restore-cache
 
   - name: build-front
-    image: node:latest
+    image: node:lts-alpine3.9
     commands:
       - cd front-practice
       - yarn
@@ -61,18 +54,19 @@ steps:
       - build-backend
       - build-front
 
-  - name: docker-buid-push
+  - name: docker-buid-push-backend
     image: plugins/docker
     settings:
-      DOCKER_PASSWORD:
-        from_secret: DOCKER_PASSWORD
-      DOCKER_USERNAME:
+      username:
         from_secret: DOCKER_USERNAME
-    commands:
-      - sh docker_build_push.sh $${DRONE_BUILD_NUMBER} $${BACKEND_NAME} $${FRONT_NAME} $${REPO} $${NAMESPACE}
-    volumes:
-      - name: docker
-        path: /var/run/docker.sock
+      password:
+        from_secret: DOCKER_PASSWORD
+      insecure: true
+      tags: ${DRONE_BUILD_NUMBER}
+      repo: 10.168.1.10:10080/dev/dentist-backend
+      registry: 10.168.1.10:10080
+      dockerfile: dockerfile-backend
+      mirror: https://sdrd9a5s.mirror.aliyuncs.com
     when:
       branch:
         - master
@@ -80,17 +74,37 @@ steps:
         - push
     depends_on:
       - build-backend
+
+  - name: docker-buid-push-front
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+      insecure: true
+      tags: ${DRONE_BUILD_NUMBER}
+      repo: 10.168.1.10:10080/dev/dentist-front
+      registry: 10.168.1.10:10080
+      dockerfile: dockerfile-front
+      mirror: https://sdrd9a5s.mirror.aliyuncs.com
+    when:
+      branch:
+        - master
+      event:
+        - push
+    depends_on:
       - build-front
 
   - name: deploy-backend
     image: quay.io/honestbee/drone-kubernetes
     settings:
-      kubernetes_server: https://192.168.56.20/k8s/clusters/c-nxpjm
+      kubernetes_server: https://10.168.1.20/k8s/clusters/c-g2wnb
       kubernetes_token:
         from_secret: K8S_TOKEN
-      namespace: app
+      namespace: harbor
       deployment: dentist-backend
-      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend
+      repo: 10.168.1.10:10080/dev/dentist-backend
       container: dentist-backend
       tag: ${DRONE_BUILD_NUMBER}
     when:
@@ -99,17 +113,17 @@ steps:
       event:
         - push
     depends_on:
-      - docker-buid-push
+      - docker-buid-push-backend
 
   - name: deploy-front
     image: quay.io/honestbee/drone-kubernetes
     settings:
-      kubernetes_server: https://192.168.56.20/k8s/clusters/c-nxpjm
+      kubernetes_server: https://10.168.1.20/k8s/clusters/c-g2wnb
       kubernetes_token:
         from_secret: K8S_TOKEN
-      namespace: app
+      namespace: harbor
       deployment: dentist-front
-      repo: registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-front
+      repo: 10.168.1.10:10080/dev/dentist-front
       container: dentist-front
       tag: ${DRONE_BUILD_NUMBER}
     when:
@@ -118,15 +132,12 @@ steps:
       event:
         - push
     depends_on:
-      - docker-buid-push
+      - docker-buid-push-front
 
 volumes:
   - name: cache
     host:
       path: /tmp/cache
-  - name: docker
-    host:
-      path: /var/run/docker.sock
 
 
       
