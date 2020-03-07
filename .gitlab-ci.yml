@@ -1,6 +1,7 @@
 stages:
   - build
   - push-image
+  - deploy
 
 cache:
   paths:
@@ -24,6 +25,16 @@ push-backend:
     - docker build --rm=true -f dockerfile-backend -t registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA .
     - docker push registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA
     - docker rmi registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA
+  only:
+    - master
+    - pushes
+  tags:
+    - vue-springboot
+
+deploy-backend:
+  stage: deploy
+  script:
+    - kubectl set image deployment/dentist-backend -n app dentist-backend=dentist-backend:$CI_COMMIT_SHA
   only:
     - master
     - pushes
