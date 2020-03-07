@@ -43,7 +43,8 @@ push-backend:
 deploy-backend:
   stage: deploy
   script:
-    - kubectl set image deployment/dentist-backend -n app dentist-backend=dentist-backend:$CI_COMMIT_SHA
+    - kubectl set image deployment/dentist-backend -n app dentist-backend=registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA
+    - kubectl set image deployment/dentist-front -n app dentist-front=registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-front:$CI_COMMIT_SHA
   only:
     - master
     - pushes
