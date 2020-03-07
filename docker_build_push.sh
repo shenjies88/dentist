@@ -5,7 +5,7 @@ front_name=$3
 repo=$4
 namespace=$5
 account=$6
-pwd=$6
+pwd=$7
 docker login -u ${account} -p ${pwd} ${repo}
 # 后端
 docker build --rm=true -f dockerfile-backend -t ${repo}/${namespace}/${backend_name}:${version} .
