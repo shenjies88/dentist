@@ -18,13 +18,21 @@ build-backend:
   tags:
     - vue-springboot
 
+build-front:
+  stage: build
+  script:
+    - yarn
+    - yarn build
+  only:
+    - master
+    - pushes
+  tags:
+    - vue-springboot
+
 push-backend:
   stage: push-image
   script:
-    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.cn-hangzhou.aliyuncs.com
-    - docker build --rm=true -f dockerfile-backend -t registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA .
-    - docker push registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA
-    - docker rmi registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA
+    - bash docker_build_push.sh $CI_COMMIT_SHA dentist-backend dentist-front registry.cn-hangzhou.aliyuncs.com shenjies88 $DOCKER_USERNAME $DOCKER_PASSWORD
   only:
     - master
     - pushes
