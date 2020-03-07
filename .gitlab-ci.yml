@@ -17,17 +17,17 @@ build-backend:
   tags:
     - vue-springboot
 
-push:
-  stage: push
-  script:
-    - echo 'aaa'
-  #    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.cn-hangzhou.aliyuncs.com
-  #    - docker build --rm=true -f dockerfile-backend -t registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA .
-  #    - docker push registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA
-  #    - docker rmi registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA
-  only:
-    - master
-    - pushes
-  tags:
-    - vue-springboot
+#push:
+#  stage: push
+#  script:
+#    - echo 'aaa'
+#  #    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.cn-hangzhou.aliyuncs.com
+#  #    - docker build --rm=true -f dockerfile-backend -t registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA .
+#  #    - docker push registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA
+#  #    - docker rmi registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA
+#  only:
+#    - master
+#    - pushes
+#  tags:
+#    - vue-springboot
 
