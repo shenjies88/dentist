@@ -1,5 +1,6 @@
 stages:
   - build
+  - push
 
 cache:
   paths:
@@ -18,6 +19,15 @@ build-backend:
     - pushes
   tags:
     - vue-springboot
+
+push:
+  stage: push
+  image: docker:latest
+  script:
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.cn-hangzhou.aliyuncs.com
+    - docker build --rm=true -f dockerfile-backend -t registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:123 .
+    - docker push registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:123
+    - docker rmi registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:123
 
 #build-front:
 #  stage: build
