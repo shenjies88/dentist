@@ -23,14 +23,19 @@ build-backend:
 push:
   stage: push
   image: docker:latest
+  environment:
+    - REPO: registry.cn-hangzhou.aliyuncs.com
+    - NAME_SPACE: shenjies88
+    - APP_NAME: dentist-backend
   script:
-    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.cn-hangzhou.aliyuncs.com
-    - docker build --rm=true -f dockerfile-backend -t registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:123 .
-    - docker push registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:123
-    - docker rmi registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:123
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $REPO
+    - docker build --rm=true -f dockerfile-backend -t $REPO/$NAME_SPACE/$APP_NAME:$CI_COMMIT_SHA .
+    - docker push $REPO/$NAME_SPACE/$APP_NAME:$CI_COMMIT_SHA
+    - docker rmi $REPO/$NAME_SPACE/$APP_NAME:$CI_COMMIT_SHA
   only:
     - master
     - pushes
   tags:
     - vue-springboot
+
 
