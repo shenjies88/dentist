@@ -6,13 +6,12 @@ cache:
   paths:
     - front-practice/node_modules/
     - front-practice/dist/
-    - ./.m2/repository
     - target/practice-backend-0.0.1-SNAPSHOT.jar
 
 build-backend:
   stage: build
   script:
-    - mvn clean package -DskipTests -Dmaven.repo.local=./.m2/repository
+    - mvn clean package -DskipTests
   only:
     - master
     - pushes
