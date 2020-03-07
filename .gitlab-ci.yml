@@ -21,6 +21,7 @@ build-backend:
 build-front:
   stage: build
   script:
+    - cd front-practice
     - yarn
     - yarn build
   only:
