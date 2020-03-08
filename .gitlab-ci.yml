@@ -8,7 +8,7 @@ variables:
   FRONT_NAME: dentist-front
   REPO: registry.cn-hangzhou.aliyuncs.com
   NAMESPACE: shenjies88
-
+  K8S_NAMESPACE: app
 cache:
   paths:
     - front-practice/dist/
@@ -49,8 +49,8 @@ push-backend:
 deploy-backend:
   stage: deploy
   script:
-    - kubectl set image deployment/${BACKEND_NAME} -n app ${BACKEND_NAME}=${REPO}/${NAMESPACE}/${BACKEND_NAME}:${CI_COMMIT_SHA}
-    - kubectl set image deployment/${FRONT_NAME} -n app ${FRONT_NAME}=${REPO}/${NAMESPACE}/${FRONT_NAME}:${CI_COMMIT_SHA}
+    - kubectl set image deployment/${BACKEND_NAME} -n ${K8S_NAMESPACE} ${BACKEND_NAME}=${REPO}/${NAMESPACE}/${BACKEND_NAME}:${CI_COMMIT_SHA}
+    - kubectl set image deployment/${FRONT_NAME} -n ${K8S_NAMESPACE} ${FRONT_NAME}=${REPO}/${NAMESPACE}/${FRONT_NAME}:${CI_COMMIT_SHA}
   only:
     - master
     - pushes
