@@ -5,7 +5,9 @@ stages:
 
 variables:
   BACKEND_NAME: dentist-backend
+  BACKEND_DOCKER: dockerfile-backend
   FRONT_NAME: dentist-front
+  FRONT_DOCKER: dockerfile-front
   REPO: registry.cn-hangzhou.aliyuncs.com
   NAMESPACE: shenjies88
   K8S_NAMESPACE: app
@@ -39,7 +41,17 @@ build-front:
 push-backend:
   stage: push-image
   script:
-    - bash docker_build_push.sh ${CI_COMMIT_SHA} ${BACKEND_NAME} ${FRONT_NAME} ${REPO} ${NAMESPACE} ${DOCKER_USERNAME} ${DOCKER_PASSWORD}
+    - bash docker_build_push.sh ${CI_COMMIT_SHA} ${BACKEND_NAME} ${BACKEND_DOCKER} ${REPO} ${NAMESPACE} ${DOCKER_USERNAME} ${DOCKER_PASSWORD}
+  only:
+    - master
+    - pushes
+  tags:
+    - vue-springboot
+
+push-front:
+  stage: push-image
+  script:
+    - bash docker_build_push.sh ${CI_COMMIT_SHA} ${FRONT_NAME} ${FRONT_DOCKER} ${REPO} ${NAMESPACE} ${DOCKER_USERNAME} ${DOCKER_PASSWORD}
   only:
     - master
     - pushes
