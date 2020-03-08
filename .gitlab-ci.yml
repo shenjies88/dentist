@@ -3,6 +3,12 @@ stages:
   - push-image
   - deploy
 
+variables:
+  BACKEND_NAME: dentist-backend
+  FRONT_NAME: dentist-front
+  REPO: egistry.cn-hangzhou.aliyuncs.com
+  NAMESPACE: shenjies88
+
 cache:
   paths:
     - front-practice/dist/
@@ -33,7 +39,7 @@ build-front:
 push-backend:
   stage: push-image
   script:
-    - bash docker_build_push.sh $CI_COMMIT_SHA dentist-backend dentist-front registry.cn-hangzhou.aliyuncs.com shenjies88 $DOCKER_USERNAME $DOCKER_PASSWORD
+    - bash docker_build_push.sh ${CI_COMMIT_SHA} ${BACKEND_NAME} ${FRONT_NAME} ${REPO} ${NAMESPACE} ${DOCKER_USERNAME} ${DOCKER_PASSWORD}
   only:
     - master
     - pushes
@@ -43,8 +49,8 @@ push-backend:
 deploy-backend:
   stage: deploy
   script:
-    - kubectl set image deployment/dentist-backend -n app dentist-backend=registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-backend:$CI_COMMIT_SHA
-    - kubectl set image deployment/dentist-front -n app dentist-front=registry.cn-hangzhou.aliyuncs.com/shenjies88/dentist-front:$CI_COMMIT_SHA
+    - kubectl set image deployment/${BACKEND_NAME} -n app ${BACKEND_NAME}=${REPO}/${NAMESPACE}/${BACKEND_NAME}:${CI_COMMIT_SHA}
+    - kubectl set image deployment/${FRONT_NAME} -n app ${FRONT_NAME}=${REPO}/${NAMESPACE}/${FRONT_NAME}:${CI_COMMIT_SHA}
   only:
     - master
     - pushes
