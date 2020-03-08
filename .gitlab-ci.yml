@@ -6,7 +6,7 @@ stages:
 variables:
   BACKEND_NAME: dentist-backend
   FRONT_NAME: dentist-front
-  REPO: egistry.cn-hangzhou.aliyuncs.com
+  REPO: registry.cn-hangzhou.aliyuncs.com
   NAMESPACE: shenjies88
 
 cache:
