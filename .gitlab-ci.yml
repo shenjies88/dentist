@@ -1,0 +1,72 @@
+stages:
+  - build
+  - push-image
+  - deploy
+
+variables:
+  BACKEND_NAME: dentist-backend
+  BACKEND_DOCKER: dockerfile-backend
+  FRONT_NAME: dentist-front
+  FRONT_DOCKER: dockerfile-front
+  REPO: registry.cn-hangzhou.aliyuncs.com
+  NAMESPACE: shenjies88
+  K8S_NAMESPACE: app
+cache:
+  paths:
+    - front-practice/dist/
+    - target/practice-backend-0.0.1-SNAPSHOT.jar
+
+build-backend:
+  stage: build
+  script:
+    - mvn clean package -DskipTests
+  only:
+    - master
+    - pushes
+  tags:
+    - vue-springboot
+
+build-front:
+  stage: build
+  script:
+    - cd front-practice
+    - yarn
+    - yarn build
+  only:
+    - master
+    - pushes
+  tags:
+    - vue-springboot
+
+push-backend:
+  stage: push-image
+  script:
+    - bash docker_build_push.sh ${CI_COMMIT_SHA} ${BACKEND_NAME} ${BACKEND_DOCKER} ${REPO} ${NAMESPACE} ${DOCKER_USERNAME} ${DOCKER_PASSWORD}
+  only:
+    - master
+    - pushes
+  tags:
+    - vue-springboot
+
+push-front:
+  stage: push-image
+  script:
+    - bash docker_build_push.sh ${CI_COMMIT_SHA} ${FRONT_NAME} ${FRONT_DOCKER} ${REPO} ${NAMESPACE} ${DOCKER_USERNAME} ${DOCKER_PASSWORD}
+  only:
+    - master
+    - pushes
+  tags:
+    - vue-springboot
+
+deploy-backend:
+  stage: deploy
+  script:
+    - kubectl set image deployment/${BACKEND_NAME} -n ${K8S_NAMESPACE} ${BACKEND_NAME}=${REPO}/${NAMESPACE}/${BACKEND_NAME}:${CI_COMMIT_SHA}
+    - kubectl set image deployment/${FRONT_NAME} -n ${K8S_NAMESPACE} ${FRONT_NAME}=${REPO}/${NAMESPACE}/${FRONT_NAME}:${CI_COMMIT_SHA}
+  only:
+    - master
+    - pushes
+  tags:
+    - vue-springboot
+
+
